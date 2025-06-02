@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>문제 리스트 - 코딩플랫폼</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-content">
+        <div class="navbar-brand">
+          <div class="brand-logo">🚀</div>
+          <h2>코딩플랫폼</h2>
+        </div>
+        <ul class="navbar-nav">
+          <li><a href="#" data-page="home" class="nav-link">홈</a></li>
+          <li><a href="#" data-page="problems" class="nav-link active">문제</a></li>
+          <li><a href="#" data-page="rankings" class="nav-link">랭킹</a></li>
+          <li><a href="#" data-page="discussion" class="nav-link">토론</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-16">
+    <div class="section-header">
+      <h2>문제 리스트</h2>
+      <p>문제를 유형별로 탐색해보세요</p>
+    </div>
+
+    <div class="tabs flex gap-8 my-8">
+      <button class="tab btn btn--outline active" data-tab="all">전체</button>
+      <button class="tab btn btn--outline" data-tab="step">단계</button>
+      <button class="tab btn btn--outline" data-tab="category">예비용</button>
+    </div>
+
+    <div class="tab-content" id="all">
+      <div class="problem-list">
+        <button class="btn btn--secondary btn--full-width mb-8" onclick="location.href='1.html'">0001 | A+B</button>
+        <button class="btn btn--secondary btn--full-width mb-8" onclick="location.href='page2.html'">0002 | A-B</button>
+        <button class="btn btn--secondary btn--full-width mb-8" onclick="location.href='page3.html'">0003 | A×B</button>
+      </div>
+    </div>
+
+    <div class="tab-content hidden" id="step">
+      <div class="problem-list">
+        <button class="btn btn--secondary btn--full-width mb-8">수식</button>
+        <button class="btn btn--secondary btn--full-width mb-8">문자열</button>
+        <button class="btn btn--secondary btn--full-width mb-8">수학</button>
+        <button class="btn btn--secondary btn--full-width mb-8">구조체</button>
+        <button class="btn btn--secondary btn--full-width mb-8">포인터</button>
+      </div>
+    </div>
+
+    <div class="tab-content hidden" id="category">
+      <p>준비 중입니다...</p>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
