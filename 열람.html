@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>글 보기</title>
+  <link rel="stylesheet" href="게시판2.css">
+</head>
+<body class="container py-16">
+  <div class="card p-16">
+    <h2 id="viewTitle" class="mb-8">제목</h2>
+    <p><strong>카테고리:</strong> <span id="viewCategory"></span></p>
+    <p><strong>언어:</strong> <span id="viewLanguage"></span></p>
+    <p><strong>글쓴이:</strong> <span id="viewAuthor"></span></p>
+    <p><strong>작성일:</strong> <span id="viewDate"></span></p>
+    <hr class="my-16">
+    <p id="viewContent" class="mb-16"></p>
+
+    <div class="flex gap-8">
+      <button id="editBtn" class="btn btn--primary">수정</button>
+      <button id="deleteBtn" class="btn btn--outline">삭제</button>
+      <button id="backBtn" class="btn btn--secondary">목록</button>
+    </div>
+  </div>
+
+  <script src="게시판.js"></script>
+</body>
+</html>

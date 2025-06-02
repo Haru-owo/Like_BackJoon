@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>글쓰기</title>
+  <link rel="stylesheet" href="게시판2.css">
+</head>
+<body class="container py-16">
+  <h2 class="mb-16">글쓰기</h2>
+
+  <form onsubmit="savePost(event)" class="card p-16">
+    <input id="title" class="form-control mb-8" placeholder="제목" required>
+
+    <select id="category" class="form-control mb-8" required>
+      <option value="" disabled selected>카테고리 선택</option>
+      <option value="질문">질문</option>
+      <option value="오타/오류 수정">오타/오류 수정</option>
+      <option value="자유">자유</option>
+    </select>
+
+    <select id="language" class="form-control mb-8" required>
+      <option value="" disabled selected>언어 선택</option>
+      <option value="C">C</option>
+      <option value="C++">C++</option>
+      <option value="JAVA">JAVA</option>
+      <option value="Python">Python</option>
+    </select>
+
+    <input id="author" class="form-control mb-8" placeholder="글쓴이" required>
+    <textarea id="content" class="form-control mb-16" placeholder="본문" rows="10" required></textarea>
+
+    <button type="submit" class="btn btn--primary btn--full-width">작성 완료</button>
+  </form>
+
+  <div class="mt-8">
+    <button class="btn btn--secondary" onclick="location.href='게시판.html'">목록</button>
+  </div>
+
+  <script src="게시판.js"></script>
+</body>
+</html>
