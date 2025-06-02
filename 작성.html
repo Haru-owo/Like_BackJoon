@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="게시판2.css">
 </head>
 <body class="container py-16">
-  <h2 class="mb-16">글쓰기</h2>
+  <h2 id="formTitle" class="mb-16">글쓰기</h2>
 
   <form onsubmit="savePost(event)" class="card p-16">
     <input id="title" class="form-control mb-8" placeholder="제목" required>
@@ -16,6 +16,7 @@
       <option value="질문">질문</option>
       <option value="오타/오류 수정">오타/오류 수정</option>
       <option value="자유">자유</option>
+      <option value="공지">공지</option>
     </select>
 
     <select id="language" class="form-control mb-8" required>
