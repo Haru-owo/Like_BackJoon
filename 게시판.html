@@ -2,45 +2,47 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>게시판</title>
+  <title>코딩플랫폼 - 게시판</title>
   <link rel="stylesheet" href="게시판2.css">
 </head>
-<body class="container py-16">
-  <!-- Navigation Bar -->
-<nav class="navbar">
-  <div class="container">
+<body>
+
+  <!-- ✅ 메뉴바 (SPA 전환용) -->
+  <nav class="navbar">
+    <div class="container">
       <div class="navbar-content">
-          <div class="navbar-brand">
-              <div class="brand-logo">
-                  <div class="logo-icon">🚀</div>
-                  <h2>코딩플랫폼</h2>
-              </div>
+        <div class="navbar-brand">
+          <div class="brand-logo">
+            <div class="logo-icon">🚀</div>
+            <h2>코딩플랫폼</h2>
           </div>
-          <ul class="navbar-nav">
-              <li><a href="#" data-page="home" class="nav-link active">홈</a></li>
-              <li><a href="#" data-page="problems" class="nav-link">문제</a></li>
-              <li><a href="#" data-page="rankings" class="nav-link">랭킹</a></li>
-              <li><a href="#" data-page="discussion" class="nav-link">토론</a></li>
-              <li><a href="#" data-page="mypage" class="nav-link">마이페이지</a></li>
-              <li><a href="#" data-page="signup" class="nav-link btn btn--primary btn--sm">회원가입</a></li>
-              <li><button id="theme-toggle" class="theme-toggle">🌙</button></li>
-          </ul>
-      </div>
-  </div>
-</nav>
-
-  <div style="max-width: 960px; margin: 0 auto;">
-    <div style="max-width: 960px; margin: 0 auto; text-align: center;">
-      <h2 class="mb-16"><br><br><br>질문 게시판</h2>
-    
-      <div class="flex justify-center gap-16 button-group">
-
-        <button class="btn btn--primary" onclick="location.hash='question'">질문 게시판</button>
-        <button class="btn btn--secondary" onclick="location.hash='notice'">공지 게시판</button>
-        <button class="btn btn--primary" onclick="goToWrite()">글쓰기</button>
+        </div>
+        <ul class="navbar-nav">
+          <li><a href="#" data-page="home" class="nav-link active">홈</a></li>
+          <li><a href="#" data-page="problems" class="nav-link">문제</a></li>
+          <li><a href="#" data-page="rankings" class="nav-link">랭킹</a></li>
+          <li><a href="#" data-page="discussion" class="nav-link">토론</a></li>
+          <li><a href="#" data-page="mypage" class="nav-link">마이페이지</a></li>
+          <li><a href="#" data-page="signup" class="nav-link btn btn--primary btn--sm">회원가입</a></li>
+          <li><button id="theme-toggle" class="theme-toggle">🌙</button></li>
+      </ul>
       </div>
     </div>
-    <div class="card p-16">
+  </nav>
+
+  <!-- ✅ 페이지 섹션들 -->
+
+  <!-- 1. 토론 게시판 -->
+  <div class="container py-16">
+    <div id="discussion-page" class="page active">
+    <h2 class="mb-16">질문 게시판</h2>
+    <div class="flex justify-center gap-16 button-group">
+      <button class="btn btn--primary" onclick="location.hash='question'">질문 게시판</button>
+      <button class="btn btn--secondary" onclick="location.hash='notice'">공지 게시판</button>
+      <button class="btn btn--primary" onclick="goToWrite()">글쓰기</button>
+    </div>
+
+    <div class="card p-16 mt-16">
       <table class="w-full">
         <thead>
           <tr>
@@ -55,7 +57,148 @@
       </table>
     </div>
   </div>
+  </div>
+  
 
+  <!-- 2. 회원가입 -->
+  <!-- 회원가입 -->
+<div id="signup-page" class="page">
+  <div class="signup-bg"></div>
+  <div class="container">
+    <div class="signup-container">
+      <div class="signup-header">
+        <h1>회원가입</h1>
+        <p>코딩플랫폼에 오신 것을 환영합니다</p>
+      </div>
+      <form id="signup-form" class="signup-form card glass-effect">
+        <div class="form-group">
+          <label for="username" class="form-label">사용자명</label>
+          <div class="input-wrapper">
+            <input type="text" id="username" name="username" class="form-control" required>
+            <div class="input-icon">👤</div>
+          </div>
+          <div class="error-message" id="username-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="email" class="form-label">이메일</label>
+          <div class="input-wrapper">
+            <input type="email" id="email" name="email" class="form-control" required>
+            <div class="input-icon">📧</div>
+          </div>
+          <div class="error-message" id="email-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="form-label">비밀번호</label>
+          <div class="input-wrapper">
+            <input type="password" id="password" name="password" class="form-control" required>
+            <div class="input-icon">🔒</div>
+          </div>
+          <div class="error-message" id="password-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirm-password" class="form-label">비밀번호 확인</label>
+          <div class="input-wrapper">
+            <input type="password" id="confirm-password" name="confirm-password" class="form-control" required>
+            <div class="input-icon">🔐</div>
+          </div>
+          <div class="error-message" id="confirm-password-error"></div>
+        </div>
+
+        <button type="submit" class="btn btn--primary btn--full-width btn--lg">
+          <span>회원가입</span>
+          <div class="btn-shine"></div>
+        </button>
+      </form>
+
+      <div class="signup-footer">
+        <p>이미 계정이 있으신가요? <a href="#" data-page="login">로그인</a></p>
+        <button class="btn btn--outline" data-page="home">메인페이지로 돌아가기</button>
+      </div>
+
+      <div id="success-message" class="success-message hidden">
+        <div class="status status--success">회원가입이 완료되었습니다! 🎉</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- 3. 마이페이지 -->
+  <!-- 마이페이지 -->
+<div id="mypage-page" class="page">
+  <div class="container">
+    <div class="mypage-container">
+      <div class="page-header">
+        <h1>마이페이지</h1>
+        <p>학습 진행 상황과 성취를 확인하세요</p>
+      </div>
+
+      <!-- 사용자 프로필 -->
+      <section class="profile-section">
+        <div class="profile-card card glass-effect">
+          <div class="card__body">
+            <div class="profile-header">
+              <div class="avatar-container">
+                <div class="avatar-placeholder">👨‍💻</div>
+                <div class="status-indicator online"></div>
+              </div>
+              <div class="profile-info">
+                <h2>김개발</h2>
+                <p class="user-email">kim@dev.com</p>
+                <p>현재 티어: <strong>Silver III</strong></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 기타 섹션들 필요 시 추가 가능 -->
+    </div>
+  </div>
+</div>
+
+
+  <!-- ✅ JavaScript -->
+  <script>
+    // SPA 메뉴 클릭 시 페이지 전환
+    document.querySelectorAll('.nav-link[data-page]').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const targetPage = link.dataset.page;
+
+        // 모든 페이지 숨기기
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+
+        // 클릭된 메뉴에 해당하는 페이지 보이기
+        const pageToShow = document.getElementById(`${targetPage}-page`);
+        if (pageToShow) pageToShow.classList.add('active');
+
+        // 메뉴 강조 처리
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      });
+    });
+
+    // 해시 기반 초기 진입 시 처리 (옵션)
+    window.addEventListener('DOMContentLoaded', () => {
+      const hash = location.hash.replace('#', '');
+      if (hash) {
+        const link = document.querySelector(`.nav-link[data-page="${hash}"]`);
+        if (link) link.click();
+      }
+    });
+
+    // 글쓰기 버튼 함수 (작성 폼 페이지로 이동하거나 보여주기)
+    function goToWrite() {
+      alert("글쓰기 화면으로 이동합니다 (예: 작성.html로 이동하거나 SPA로 구성 가능)");
+      // location.href = '작성.html'; ← 파일 분리일 경우
+    }
+  </script>
+
+  <!-- ✅ 기본 게시판 데이터용 JS -->
   <script src="게시판.js"></script>
 </body>
 </html>

@@ -2325,4 +2325,10 @@
     margin-top: 32px;  /* 위 여백 */
     margin-bottom: 32px; /* 아래 여백 */
   }
+  .page {
+    display: none;
+  }
+  .page.active {
+    display: block;
+  }
   
