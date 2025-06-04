@@ -2314,4 +2314,15 @@
     table-layout: fixed;
     width: 100%;
   }
+  .button-group > button {
+    margin-right: 30px;
+  }
+  
+  .button-group > button:last-child {
+    margin-right: 0;
+  }
+  .button-group {
+    margin-top: 32px;  /* 위 여백 */
+    margin-bottom: 32px; /* 아래 여백 */
+  }
   

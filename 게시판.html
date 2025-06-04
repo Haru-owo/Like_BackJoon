@@ -6,17 +6,40 @@
   <link rel="stylesheet" href="게시판2.css">
 </head>
 <body class="container py-16">
+  <!-- Navigation Bar -->
+<nav class="navbar">
+  <div class="container">
+      <div class="navbar-content">
+          <div class="navbar-brand">
+              <div class="brand-logo">
+                  <div class="logo-icon">🚀</div>
+                  <h2>코딩플랫폼</h2>
+              </div>
+          </div>
+          <ul class="navbar-nav">
+              <li><a href="#" data-page="home" class="nav-link active">홈</a></li>
+              <li><a href="#" data-page="problems" class="nav-link">문제</a></li>
+              <li><a href="#" data-page="rankings" class="nav-link">랭킹</a></li>
+              <li><a href="#" data-page="discussion" class="nav-link">토론</a></li>
+              <li><a href="#" data-page="mypage" class="nav-link">마이페이지</a></li>
+              <li><a href="#" data-page="signup" class="nav-link btn btn--primary btn--sm">회원가입</a></li>
+              <li><button id="theme-toggle" class="theme-toggle">🌙</button></li>
+          </ul>
+      </div>
+  </div>
+</nav>
+
   <div style="max-width: 960px; margin: 0 auto;">
-    <h2 class="mb-16">질문 게시판</h2>
+    <div style="max-width: 960px; margin: 0 auto; text-align: center;">
+      <h2 class="mb-16"><br><br><br>질문 게시판</h2>
+    
+      <div class="flex justify-center gap-16 button-group">
 
-    <div class="flex gap-8 mb-16">
-      <button class="btn btn--primary" onclick="location.hash='question'">질문 게시판</button>
-      <button class="btn btn--secondary" onclick="location.hash='notice'">공지 게시판</button>
-      <button class="btn btn--primary" onclick="goToWrite()">글쓰기</button>
+        <button class="btn btn--primary" onclick="location.hash='question'">질문 게시판</button>
+        <button class="btn btn--secondary" onclick="location.hash='notice'">공지 게시판</button>
+        <button class="btn btn--primary" onclick="goToWrite()">글쓰기</button>
+      </div>
     </div>
-    
-    
-
     <div class="card p-16">
       <table class="w-full">
         <thead>

@@ -1,184 +1,220 @@
-// ========== 기본 공지글 초기화 ==========
-function initializeDefaultPosts() {
-  const posts = JSON.parse(localStorage.getItem('posts') || '[]');
-  const hasDefaultNotice = posts.some(post => post.category === '공지' && post.title === '공지사항');
-  if (hasDefaultNotice) return;
-
-  const defaultPost = {
-    title: '공지사항',
-    category: '공지',
-    language: '공지',
-    author: '관리자',
-    content: '이곳은 공지사항 게시판입니다.',
-    date: new Date().toLocaleDateString(),
-  };
-
-  posts.unshift(defaultPost);
-  localStorage.setItem('posts', JSON.stringify(posts));
-}
-
-// ========== 글쓰기 저장 ==========
-function savePost(event) {
-  event.preventDefault();
-
-  const params = new URLSearchParams(window.location.search);
-  const editIndex = params.get('edit');
-
-  const post = {
-    title: document.getElementById('title').value,
-    category: document.getElementById('category').value,
-    language: document.getElementById('language').value,
-    author: document.getElementById('author').value,
-    content: document.getElementById('content').value,
-    date: new Date().toLocaleDateString(),
-  };
-
-  const posts = JSON.parse(localStorage.getItem('posts') || '[]');
-
-  if (editIndex !== null) {
-    posts[editIndex] = post;
-  } else {
-    posts.push(post);
+// 기본 공지 글 등록 (최초 실행 시 한 번만)
+const defaultPosts = [
+  {
+    title: "환영합니다! 공지사항입니다.",
+    category: "공지",
+    language: "전체",
+    author: "관리자",
+    date: "2025-06-04",
+    content: "이 게시판은 다양한 질문과 공지를 위한 공간입니다. 모두가 예의를 지켜주시기 바랍니다."
   }
+];
 
-  localStorage.setItem('posts', JSON.stringify(posts));
-  const targetHash = post.category === '공지' ? 'notice' : 'question';
-  location.href = `게시판.html#${targetHash}`;
+if (!localStorage.getItem('posts')) {
+  localStorage.setItem('posts', JSON.stringify(defaultPosts));
 }
 
-// ========== 게시글 목록 출력 ==========
-function renderPostsByHash() {
-  const hash = location.hash.replace('#', '') || 'question';
-  const posts = JSON.parse(localStorage.getItem('posts') || '[]');
-
-  const filtered = posts.filter(post => {
-    if (hash === 'notice') return post.category === '공지';
-    return post.category !== '공지';
-  });
-
+// 게시글 목록 렌더링
+function renderPosts() {
   const postList = document.getElementById('postList');
-  if (!postList) return;
+  const posts = JSON.parse(localStorage.getItem('posts')) || [];
 
-  if (filtered.length === 0) {
-    postList.innerHTML = `<tr><td colspan="5" style="text-align:center;">게시글이 없습니다.</td></tr>`;
-    return;
-  }
-
-  postList.innerHTML = filtered.map((post, index) => `
-    <tr onclick="location.href='열람.html?index=${index}'" style="cursor:pointer;">
-      <td>${post.title}</td>
-      <td>${post.category}</td>
-      <td>${post.language}</td>
-      <td>${post.author}</td>
-      <td>${post.date}</td>
-    </tr>
-  `).join('');
-}
-
-// ========== 버튼 스타일 업데이트 ==========
-function updateActiveButton() {
-  const hash = location.hash.replace('#', '') || 'question';
-  const questionBtn = document.querySelector('button[onclick*="question"]');
-  const noticeBtn = document.querySelector('button[onclick*="notice"]');
-
-  questionBtn?.classList.remove('btn--primary', 'btn--secondary');
-  noticeBtn?.classList.remove('btn--primary', 'btn--secondary');
+  const hash = location.hash.replace('#', '');
+  let filteredPosts;
 
   if (hash === 'notice') {
-    noticeBtn?.classList.add('btn--primary');
-    questionBtn?.classList.add('btn--secondary');
+    filteredPosts = posts.filter(post => post.category === '공지');
   } else {
-    questionBtn?.classList.add('btn--primary');
-    noticeBtn?.classList.add('btn--secondary');
-  }
-}
-
-// ========== 글 상세 보기 ==========
-function loadPostDetail() {
-  const params = new URLSearchParams(window.location.search);
-  const index = parseInt(params.get('index'), 10);
-  const posts = JSON.parse(localStorage.getItem('posts') || '[]');
-  const post = posts[index];
-
-  if (!post) return;
-
-  document.getElementById('viewTitle').textContent = post.title;
-  document.getElementById('viewCategory').textContent = post.category;
-  document.getElementById('viewLanguage').textContent = post.language;
-  document.getElementById('viewAuthor').textContent = post.author;
-  document.getElementById('viewDate').textContent = post.date;
-  document.getElementById('viewContent').textContent = post.content;
-
-  // ✅ 공지글이면 수정/삭제 버튼 숨김
-  if (post.category === '공지') {
-    document.getElementById('editBtn').style.display = 'none';
-    document.getElementById('deleteBtn').style.display = 'none';
+    // 기본 또는 질문 게시판 탭일 경우 '공지' 글은 제외
+    filteredPosts = posts.filter(post => post.category !== '공지');
   }
 
-  document.getElementById('editBtn').onclick = () => {
-    location.href = `작성.html?edit=${index}`;
-  };
-
-  document.getElementById('deleteBtn').onclick = () => {
-    if (confirm('정말 삭제하시겠습니까?')) {
-      posts.splice(index, 1);
-      localStorage.setItem('posts', JSON.stringify(posts));
-      location.href = '게시판.html';
-    }
-  };
-
-  // ✅ 공지글이면 #notice로, 아니면 #question으로 이동
-  document.getElementById('backBtn').onclick = () => {
-    const targetHash = post.category === '공지' ? 'notice' : 'question';
-    location.href = `게시판.html#${targetHash}`;
-  };
+  postList.innerHTML = filteredPosts.map((post) => {
+    const indexInAllPosts = posts.indexOf(post); // 전체 기준 인덱스
+    return `
+      <tr onclick="viewPost(${indexInAllPosts})">
+        <td>${post.title}</td>
+        <td>${post.category}</td>
+        <td>${post.language}</td>
+        <td>${post.author}</td>
+        <td>${post.date}</td>
+      </tr>
+    `;
+  }).join('');
 }
 
-// ========== 글 수정 모드 ==========
-function loadEditPost() {
-  const params = new URLSearchParams(window.location.search);
-  const editIndex = params.get('edit');
-  if (editIndex === null) return;
 
-  const posts = JSON.parse(localStorage.getItem('posts') || '[]');
-  const post = posts[editIndex];
-  if (!post) return;
-
-  document.getElementById('title').value = post.title;
-  document.getElementById('category').value = post.category;
-  document.getElementById('language').value = post.language;
-  document.getElementById('author').value = post.author;
-  document.getElementById('content').value = post.content;
-
-  const titleElem = document.getElementById('formTitle');
-  if (titleElem) titleElem.textContent = '글 수정';
+// 글 보기 페이지로 이동
+function viewPost(index) {
+  localStorage.setItem('viewPostIndex', index);
+  location.href = '열람.html';
 }
 
-// ========== 글쓰기 이동 ==========
+// 글쓰기 페이지로 이동
 function goToWrite() {
   location.href = '작성.html';
 }
 
-// ========== 초기 로딩 ==========
+// 초기 렌더링 및 해시 변경 대응
+window.addEventListener('DOMContentLoaded', renderPosts);
+window.addEventListener('hashchange', renderPosts);
 window.addEventListener('DOMContentLoaded', () => {
-  initializeDefaultPosts();  // 공지글 자동 등록
+  const index = localStorage.getItem('viewPostIndex');
+  const posts = JSON.parse(localStorage.getItem('posts')) || [];
 
-  if (document.getElementById('postList')) {
-    renderPostsByHash();
-    updateActiveButton();
-  }
+  if (index !== null && posts[index]) {
+    const post = posts[index];
+    document.getElementById('viewTitle').innerText = post.title;
+    document.getElementById('viewCategory').innerText = post.category;
+    document.getElementById('viewLanguage').innerText = post.language;
+    document.getElementById('viewAuthor').innerText = post.author;
+    document.getElementById('viewDate').innerText = post.date;
+    document.getElementById('viewContent').innerText = post.content;
 
-  if (document.getElementById('viewTitle')) {
-    loadPostDetail();
-  }
+    // 버튼 동작 연결
+    document.getElementById('backBtn').addEventListener('click', () => {
+      location.href = '게시판.html';
+    });
 
-  if (document.getElementById('formTitle')) {
-    loadEditPost();
+    document.getElementById('editBtn').addEventListener('click', () => {
+      localStorage.setItem('editPostIndex', index);
+      location.href = '작성.html';
+    });
+
+    document.getElementById('deleteBtn').addEventListener('click', () => {
+      if (confirm("정말 삭제하시겠습니까?")) {
+        posts.splice(index, 1);
+        localStorage.setItem('posts', JSON.stringify(posts));
+        location.href = '게시판.html';
+      }
+    });
+  } else {
+    alert('글을 찾을 수 없습니다.');
+    location.href = '게시판.html';
   }
 });
+window.addEventListener('DOMContentLoaded', () => {
+  const index = localStorage.getItem('viewPostIndex');
+  const posts = JSON.parse(localStorage.getItem('posts')) || [];
 
-// ========== 해시 변경 감지 ==========
-window.addEventListener('hashchange', () => {
-  renderPostsByHash();
-  updateActiveButton();
+  if (index !== null && posts[index]) {
+    const post = posts[index];
+    document.getElementById('viewTitle').innerText = post.title;
+    document.getElementById('viewCategory').innerText = post.category;
+    document.getElementById('viewLanguage').innerText = post.language;
+    document.getElementById('viewAuthor').innerText = post.author;
+    document.getElementById('viewDate').innerText = post.date;
+    document.getElementById('viewContent').innerText = post.content;
+
+    // 버튼 동작 연결
+    document.getElementById('backBtn').addEventListener('click', () => {
+      const target = post.category === '공지' ? '게시판.html#notice' : '게시판.html';
+      location.href = target;
+    });
+
+    if (post.category !== '공지') {
+      // 공지가 아닐 경우에만 수정/삭제 버튼 보이게
+      document.getElementById('editBtn').addEventListener('click', () => {
+        localStorage.setItem('editPostIndex', index);
+        location.href = '작성.html';
+      });
+
+      document.getElementById('deleteBtn').addEventListener('click', () => {
+        if (confirm("정말 삭제하시겠습니까?")) {
+          posts.splice(index, 1);
+          localStorage.setItem('posts', JSON.stringify(posts));
+          location.href = '게시판.html';
+        }
+      });
+    } else {
+      // 공지일 경우 버튼 숨김
+      document.getElementById('editBtn').style.display = 'none';
+      document.getElementById('deleteBtn').style.display = 'none';
+    }
+  } else {
+    alert('글을 찾을 수 없습니다.');
+    location.href = '게시판.html';
+  }
+});
+// === Navbar Page Switch Logic ===
+document.querySelectorAll('.nav-link[data-page]').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const targetPage = link.dataset.page;
+
+    // Remove active class from all pages and links
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+
+    // Show selected page and highlight nav item
+    const pageToShow = document.getElementById(`${targetPage}-page`);
+    if (pageToShow) {
+      pageToShow.classList.add('active');
+      link.classList.add('active');
+    }
+  });
+});
+
+// === SPA Page Navigation ===
+document.querySelectorAll('.nav-link[data-page]').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const targetPage = link.dataset.page;
+
+    // 페이지 전환
+    document.querySelectorAll('.page').forEach(page => {
+      page.classList.remove('active');
+    });
+    const target = document.getElementById(`${targetPage}-page`);
+    if (target) target.classList.add('active');
+
+    // 메뉴 강조
+    document.querySelectorAll('.nav-link').forEach(nav => {
+      nav.classList.remove('active');
+    });
+    link.classList.add('active');
+  });
+});
+
+// === 테마 전환 기능 (Light <-> Dark) ===
+const themeToggle = document.getElementById('theme-toggle');
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    const html = document.documentElement;
+    const current = html.getAttribute('data-color-scheme') || 'light';
+    const next = current === 'light' ? 'dark' : 'light';
+
+    html.setAttribute('data-color-scheme', next);
+    themeToggle.textContent = next === 'dark' ? '☀️' : '🌙';
+  });
+}
+
+// === URL 해시를 통한 첫 진입 시 페이지 표시 (옵션 기능) ===
+window.addEventListener('DOMContentLoaded', () => {
+  const hashPage = window.location.hash.replace('#', '');
+  const defaultPage = hashPage || 'home';
+  const navLink = document.querySelector(`.nav-link[data-page="${defaultPage}"]`);
+  if (navLink) navLink.click();
+});
+document.querySelectorAll('.nav-link[data-page]').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const targetPage = link.dataset.page;
+
+    // 페이지 전환
+    document.querySelectorAll('.page').forEach(page => {
+      page.classList.remove('active');
+    });
+    const target = document.getElementById(`${targetPage}-page`);
+    if (target) target.classList.add('active');
+
+    // 메뉴 강조
+    document.querySelectorAll('.nav-link').forEach(nav => {
+      nav.classList.remove('active');
+    });
+    link.classList.add('active');
+  });
 });
