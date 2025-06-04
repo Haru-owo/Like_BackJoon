@@ -2303,3 +2303,6 @@ a:hover {
     format('woff2');
   font-display: swap;
 }
+.hidden {
+  display: none;
+}

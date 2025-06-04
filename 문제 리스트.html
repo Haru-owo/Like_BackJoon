@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>문제 리스트 - 코딩플랫폼</title>
+  <link rel="stylesheet" href="styles(ckd).css">
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-content">
+        <div class="navbar-brand">
+          <div class="brand-logo">🚀</div>
+          <h2>코딩플랫폼</h2>
+        </div>
+        <ul class="navbar-nav">
+          <li><a href="#" data-page="home" class="nav-link" onclick="location.href='main.html'">홈</a></li>
+          <li><a href="#" data-page="problems" class="nav-link active">문제</a></li>
+          <li><a href="#" data-page="rankings" class="nav-link">랭킹</a></li>
+          <li><a href="#" data-page="discussion" class="nav-link">토론</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-16">
+    <div class="section-header">
+      <h2>문제 리스트</h2>
+      <p>문제를 유형별로 탐색해보세요</p>
+    </div>
+
+    <div class="tabs flex gap-8 my-8">
+      <button class="tab btn btn--outline active" data-tab="all">전체</button>
+      <button class="tab btn btn--outline" data-tab="step">단계</button>
+      
+    </div>
+
+    <div class="tab-content" id="all">
+      <div class="problem-list">
+        <button class="btn btn--secondary btn--full-width mb-8" onclick="location.href='1.html'">0001 | A+B</button>
+        <button class="btn btn--secondary btn--full-width mb-8" onclick="location.href='page2.html'">0002 | A-B</button>
+        <button class="btn btn--secondary btn--full-width mb-8" onclick="location.href='page3.html'">0003 | A×B</button>
+      </div>
+    </div>
+
+    <div class="tab-content hidden" id="step">
+      <div class="sub-tabs flex gap-4 mb-8">
+        <button class="sub-tab btn btn--outline active" data-sub="math">수식</button>
+        <button class="sub-tab btn btn--outline" data-sub="string">문자열</button>
+        <button class="sub-tab btn btn--outline" data-sub="number">수학</button>
+        <button class="sub-tab btn btn--outline" data-sub="struct">구조체</button>
+        <button class="sub-tab btn btn--outline" data-sub="pointer">포인터</button>
+      </div>
+
+      <div class="sub-tab-content" id="math">
+        <button class="btn btn--secondary btn--full-width mb-8" onclick="location.href='math1.html'">0101 | 괄호 계산</button>
+        <button class="btn btn--secondary btn--full-width mb-8" onclick="location.href='math2.html'">0102 | 사칙 연산</button>
+      </div>
+
+      <div class="sub-tab-content hidden" id="string">
+        <button class="btn btn--secondary btn--full-width mb-8" onclick="location.href='string1.html'">0201 | 회문 검사</button>
+        <button class="btn btn--secondary btn--full-width mb-8" onclick="location.href='string2.html'">0202 | 문자열 뒤집기</button>
+      </div>
+
+      <div class="sub-tab-content hidden" id="number">
+        <button class="btn btn--secondary btn--full-width mb-8" onclick="location.href='number1.html'">0301 | 최대공약수</button>
+        <button class="btn btn--secondary btn--full-width mb-8" onclick="location.href='number2.html'">0302 | 소수 판별</button>
+      </div>
+
+      <div class="sub-tab-content hidden" id="struct">
+        <button class="btn btn--secondary btn--full-width mb-8" onclick="location.href='struct1.html'">0401 | 학생 정보</button>
+        <button class="btn btn--secondary btn--full-width mb-8" onclick="location.href='struct2.html'">0402 | 좌표 정렬</button>
+      </div>
+
+      <div class="sub-tab-content hidden" id="pointer">
+        <button class="btn btn--secondary btn--full-width mb-8" onclick="location.href='pointer1.html'">0501 | 포인터 기본</button>
+        <button class="btn btn--secondary btn--full-width mb-8" onclick="location.href='pointer2.html'">0502 | 포인터 배열</button>
+      </div>
+    </div>
+
+    
+  </main>
+
+  <script src="script(ckd).js"></script>
+</body>
+</html>
