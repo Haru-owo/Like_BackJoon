@@ -1,51 +1,64 @@
 document.addEventListener("DOMContentLoaded", () => {
   const tabs = document.querySelectorAll(".tab");
-  const contents = document.querySelectorAll(".tab-content");
+  const tabContents = document.querySelectorAll(".tab-content");
 
   tabs.forEach(tab => {
     tab.addEventListener("click", () => {
-      // ��� �ǿ��� active ����
-      tabs.forEach(t => t.classList.remove("active"));
-      // Ŭ���� �ǿ� active �߰�
-      tab.classList.add("active");
-
-      // ��� ������ ����
-      contents.forEach(content => content.style.display = "none");
-
-      // Ŭ���� ���� ������ ���̱�
       const selectedId = tab.getAttribute("data-tab");
-      document.getElementById(selectedId).style.display = "block";
-    });
-  });
-});
-document.addEventListener("DOMContentLoaded", () => {
-  // 상위 탭 전환
-  const tabs = document.querySelectorAll(".tab");
-  const contents = document.querySelectorAll(".tab-content");
 
-  tabs.forEach(tab => {
-    tab.addEventListener("click", () => {
       tabs.forEach(t => t.classList.remove("active"));
       tab.classList.add("active");
 
-      contents.forEach(content => content.classList.add("hidden"));
-      const selectedId = tab.getAttribute("data-tab");
+      tabContents.forEach(content => content.classList.add("hidden"));
       document.getElementById(selectedId).classList.remove("hidden");
-    });
-  });
 
-  // 하위 탭 전환 (단계 탭 내)
-  const subTabs = document.querySelectorAll(".sub-tab");
-  const subContents = document.querySelectorAll(".sub-tab-content");
-
-  subTabs.forEach(sub => {
-    sub.addEventListener("click", () => {
-      subTabs.forEach(s => s.classList.remove("active"));
-      sub.classList.add("active");
-
-      subContents.forEach(c => c.classList.add("hidden"));
-      const selected = sub.getAttribute("data-sub");
-      document.getElementById(selected).classList.remove("hidden");
+      if (selectedId === "step") {
+        document.getElementById("step").classList.remove("hidden");
+        document.getElementById("step-detail").classList.add("hidden");
+      } else {
+        document.getElementById("step").classList.add("hidden");
+        document.getElementById("step-detail").classList.add("hidden");
+      }
     });
   });
 });
+
+const stepProblems = {
+  math: [
+    { id: "0101", title: "괄호 계산", level: "Bronze", href: "math1.html" },
+    { id: "0102", title: "사칙 연산", level: "Silver", href: "math2.html" },
+  ],
+  string: [
+    { id: "0201", title: "회문 검사", level: "Silver", href: "string1.html" },
+    { id: "0202", title: "문자열 뒤집기", level: "Silver", href: "string2.html" },
+  ],
+};
+
+function showStepDetail(category) {
+  document.getElementById("step").classList.add("hidden");
+  document.getElementById("step-detail").classList.remove("hidden");
+
+  const table = document.getElementById("step-detail-table");
+  const rows = stepProblems[category]
+    .map(
+      p => `
+      <tr onclick="location.href='${p.href}'">
+        <td>${p.id}</td>
+        <td>${p.title}</td>
+        <td>${p.level}</td>
+      </tr>`
+    )
+    .join("");
+
+  table.innerHTML = `
+    <thead>
+      <tr><th>📌문제</th><th>문제제목</th><th>정보</th></tr>
+    </thead>
+    <tbody>${rows}</tbody>
+  `;
+}
+
+function backToStep() {
+  document.getElementById("step-detail").classList.add("hidden");
+  document.getElementById("step").classList.remove("hidden");
+}
