@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>통합 페이지</title>
+  <link rel="stylesheet" href="problem.css">
+</head>
+<body>
+
+<div id="problemSection" style="display: block;">
+
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <div class="brand-logo">
+        <span class="logo-icon">🚀</span>
+        <div class="navbar-brand">
+          <h2>코딩플랫폼</h2>
+        </div>
+      </div>
+      <ul class="navbar-nav">
+        <li><a class="nav-link" href="#">255번</a></li>
+        <li><a class="nav-link" href="#">제출</a></li>
+        <li><a class="nav-link" href="#">채점 사항</a></li>
+        <li><a class="nav-link" href="#">채점 결과</a></li>
+        <li><a class="nav-link" href="#">채점 현황</a></li>
+        <li><a class="nav-link active" href="#">문제</a></li>
+        <li><a class="nav-link" href="#">난이도 기억</a></li>
+        <li><a class="nav-link" href="#">질문 게시판</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container" style="max-width: 1100px; margin-top: 40px;">
+    <header class="page-header" style="text-align: left; margin-bottom: 32px;">
+      <h1>문자열 출력하기</h1>
+      <h2 style="color: var(--color-warning); margin-top: 8px;">문제 01</h2>
+    </header>
+
+    <section class="card hover-lift" style="margin-bottom: 24px;">
+      <div class="card__body">
+        <h2>입력 받은 대로 출력하는 프로그램을 작성하시오.</h2><br><br>
+        <h2>입력</h2>
+        입력이 주어진다. 입력은 최대 100줄로 이루어져 있고, 알파벳 소문자, 대문자, 공백, 숫자로만 이루어져 있다. 각 줄은 100글자를 넘지 않으며, 빈 줄은 주어지지 않는다. 또, 각 줄은 공백으로 시작하지 않고, 공백으로 끝나지 않는다.<br><br>
+        <h2>출력</h2>
+        입력받은 그대로 출력한다.
+      </div>
+    </section>
+
+    <section class="card hover-lift" style="margin-bottom: 24px;">
+      <div class="card__body">
+        <div class="blank-space-container" style="display: flex; width: 100%; gap: 0;">
+          <div class="card" style="width: 50%;">
+            <div class="card__body">
+              <h2>예시 입력</h2>
+              <h2>
+              Hello<br>
+              Baekjoon<br>
+              Online Judge<br>
+              </h2>
+              <div style="min-height: 200px;"></div>
+            </div>
+          </div>
+          <div class="card" style="width: 50%;">
+            <div class="card__body">
+              <h2>예시출력</h2><br>
+              <h2>
+              Hello<br>
+              Baekjoon<br>
+              Online Judge<br>
+              </h2>
+              <div style="min-height: 200px;"></div>
+            </div>
+          </div>
+        </div>
+        <p style="margin-top: 16px;">.</p>
+      </div>
+    </section>
+  </main>
+
+</div>
+
+<!-- 두 번째 화면 -->
+<div id="submitSection" style="display: none;">
+<main class="container">
+        <h1>Hello World</h1>
+
+        <div class="form-group language-selection">
+            <label for="language">언어 설정</label>
+            <select id="language" class="form-control">
+                <option value="cpp17">C++17</option>
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+            </select>
+        </div>
+
+        <div class="form-group source-code-visibility">
+            <label>소스 코드 공개</label>
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="visibility" value="public" checked> 공개
+                </label>
+                <label>
+                    <input type="radio" name="visibility" value="private"> 비공개
+                </label>
+                <label>
+                    <input type="radio" name="visibility" value="correct-only"> 맞았을 때만 공개
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group source-code-editor">
+            <label for="sourceCode">소스 코드</label>
+            <div class="editor-container">
+                <div class="line-numbers">1</div>
+                <textarea id="sourceCode" class="form-control editor" rows="15" spellcheck="false"></textarea>
+            </div>
+        </div>
+
+         <div class="form-group submit-button-group">
+            <button class="btn" id="submitBtn">제출</button>
+
+        </div>
+    </main>
+<div id="popupMessage" class="popup" style="
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px 40px;
+    border-radius: 8px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    z-index: 1000;
+    font-size: 1.2rem;
+    color: black;
+">
+    제출되었습니다.
+</div>
+</div>
+
+<script src="problem.js"></script>
+</body>
+</html>
