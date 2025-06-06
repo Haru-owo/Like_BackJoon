@@ -6,6 +6,28 @@
   <link rel="stylesheet" href="게시판2.css">
 </head>
 <body class="container py-16">
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-content">
+        <div class="navbar-brand">
+          <div class="brand-logo">
+            <div class="logo-icon">🚀</div>
+            <h2>코딩플랫폼</h2>
+          </div>
+        </div>
+        <ul class="navbar-nav">
+          <li><a href="#" data-page="home" class="nav-link">홈</a></li>
+          <li><a href="#" data-page="problems" class="nav-link">문제</a></li>
+          <li><a href="#" data-page="rankings" class="nav-link">랭킹</a></li>
+          <li><a href="#" data-page="discussion" class="nav-link active">토론</a></li>
+          <li><a href="#" data-page="mypage" class="nav-link">마이페이지</a></li>
+          <li><a href="#" data-page="signup" class="nav-link btn btn--primary btn--sm">회원가입</a></li>
+          <li><button id="theme-toggle" class="theme-toggle">🌙</button></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
   <div class="card p-16">
     <h2 id="viewTitle" class="mb-8">제목</h2>
     <p><strong>카테고리:</strong> <span id="viewCategory"></span></p>

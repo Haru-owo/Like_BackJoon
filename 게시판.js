@@ -1,220 +1,251 @@
-// 기본 공지 글 등록 (최초 실행 시 한 번만)
-const defaultPosts = [
+// 📌 초기 고정 공지 데이터
+const defaultNotices = [
   {
-    title: "환영합니다! 공지사항입니다.",
-    category: "공지",
-    language: "전체",
+    title: "📢 서버 점검 안내",
+    category: "",
+    language: "",
+    author: "운영팀",
+    content: "6월 15일(토) 02:00~04:00 서버 점검이 있습니다.",
+    date: "2025-06-01"
+  },
+  {
+    title: "📚 게시판 이용 규칙",
+    category: "",
+    language: "",
     author: "관리자",
-    date: "2025-06-04",
-    content: "이 게시판은 다양한 질문과 공지를 위한 공간입니다. 모두가 예의를 지켜주시기 바랍니다."
+    content: "욕설, 광고, 도배글은 삭제될 수 있습니다.",
+    date: "2025-06-03"
   }
 ];
 
-if (!localStorage.getItem('posts')) {
-  localStorage.setItem('posts', JSON.stringify(defaultPosts));
-}
+// 📌 글 저장 함수
+function savePost(event) {
+  event.preventDefault();
 
-// 게시글 목록 렌더링
-function renderPosts() {
-  const postList = document.getElementById('postList');
-  const posts = JSON.parse(localStorage.getItem('posts')) || [];
+  const title = document.getElementById('title').value.trim();
+  const category = document.getElementById('category')?.value || '';
+  const language = document.getElementById('language')?.value || '';
+  const author = document.getElementById('author').value.trim();
+  const content = document.getElementById('content').value.trim();
+  const date = new Date().toISOString().split('T')[0];
 
-  const hash = location.hash.replace('#', '');
-  let filteredPosts;
+  const newPost = { title, category, language, author, content, date };
 
-  if (hash === 'notice') {
-    filteredPosts = posts.filter(post => post.category === '공지');
+  const params = new URLSearchParams(window.location.search);
+  const type = params.get('type') === 'notice' ? 'notice' : 'question';
+  const key = type === 'notice' ? 'notices' : 'posts';
+  const isEdit = params.get('edit') === '1';
+
+  let posts = JSON.parse(localStorage.getItem(key) || '[]');
+
+  if (isEdit) {
+    const editIndex = parseInt(localStorage.getItem('editIndex'), 10);
+    posts[editIndex] = newPost;
+    localStorage.removeItem('editIndex');
+    localStorage.removeItem('editData');
   } else {
-    // 기본 또는 질문 게시판 탭일 경우 '공지' 글은 제외
-    filteredPosts = posts.filter(post => post.category !== '공지');
+    posts.push(newPost);
   }
 
-  postList.innerHTML = filteredPosts.map((post) => {
-    const indexInAllPosts = posts.indexOf(post); // 전체 기준 인덱스
-    return `
-      <tr onclick="viewPost(${indexInAllPosts})">
-        <td>${post.title}</td>
-        <td>${post.category}</td>
-        <td>${post.language}</td>
-        <td>${post.author}</td>
-        <td>${post.date}</td>
-      </tr>
-    `;
-  }).join('');
+  localStorage.setItem(key, JSON.stringify(posts));
+  window.location.href = `게시판.html?type=${type}`;
 }
 
+// ✏️ 작성 페이지: 수정 시 데이터 불러오기 및 UI 설정
+document.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  const isEdit = params.get('edit') === '1';
+  const type = params.get('type') === 'notice' ? 'notice' : 'question';
 
-// 글 보기 페이지로 이동
-function viewPost(index) {
-  localStorage.setItem('viewPostIndex', index);
-  location.href = '열람.html';
-}
+  const formTitle = document.getElementById('formTitle');
+  if (formTitle) {
+    formTitle.textContent = isEdit
+      ? (type === 'notice' ? '공지 수정' : '글 수정')
+      : (type === 'notice' ? '공지 작성' : '글쓰기');
+  }
 
-// 글쓰기 페이지로 이동
-function goToWrite() {
-  location.href = '작성.html';
-}
+  if (type === 'notice') {
+    const catEl = document.getElementById('category');
+    const langEl = document.getElementById('language');
+    if (catEl) catEl.style.display = 'none';
+    if (langEl) langEl.style.display = 'none';
+  }
 
-// 초기 렌더링 및 해시 변경 대응
-window.addEventListener('DOMContentLoaded', renderPosts);
-window.addEventListener('hashchange', renderPosts);
-window.addEventListener('DOMContentLoaded', () => {
-  const index = localStorage.getItem('viewPostIndex');
-  const posts = JSON.parse(localStorage.getItem('posts')) || [];
+  if (isEdit) {
+    const post = JSON.parse(localStorage.getItem('editData'));
+    if (post) {
+      document.getElementById('title').value = post.title;
+      document.getElementById('author').value = post.author;
+      document.getElementById('content').value = post.content;
+      if (type !== 'notice') {
+        document.getElementById('category').value = post.category;
+        document.getElementById('language').value = post.language;
+      }
+    }
+  }
+});
 
-  if (index !== null && posts[index]) {
-    const post = posts[index];
-    document.getElementById('viewTitle').innerText = post.title;
-    document.getElementById('viewCategory').innerText = post.category;
-    document.getElementById('viewLanguage').innerText = post.language;
-    document.getElementById('viewAuthor').innerText = post.author;
-    document.getElementById('viewDate').innerText = post.date;
-    document.getElementById('viewContent').innerText = post.content;
+// 📝 게시판 목록 표시
+document.addEventListener('DOMContentLoaded', () => {
+  const list = document.getElementById('postList');
+  const title = document.getElementById('boardTitle');
+  if (!list || !title) return;
 
-    // 버튼 동작 연결
-    document.getElementById('backBtn').addEventListener('click', () => {
-      location.href = '게시판.html';
-    });
+  const params = new URLSearchParams(window.location.search);
+  const type = params.get('type') === 'notice' ? 'notice' : 'question';
+  const key = type === 'notice' ? 'notices' : 'posts';
 
-    document.getElementById('editBtn').addEventListener('click', () => {
-      localStorage.setItem('editPostIndex', index);
-      location.href = '작성.html';
-    });
+  title.textContent = type === 'notice' ? '공지 게시판' : '질문 게시판';
 
-    document.getElementById('deleteBtn').addEventListener('click', () => {
-      if (confirm("정말 삭제하시겠습니까?")) {
-        posts.splice(index, 1);
-        localStorage.setItem('posts', JSON.stringify(posts));
-        location.href = '게시판.html';
+  let posts = JSON.parse(localStorage.getItem(key) || '[]');
+
+  if (type === 'notice') {
+    const existingTitles = posts.map(p => p.title);
+    defaultNotices.forEach(notice => {
+      if (!existingTitles.includes(notice.title)) {
+        posts.push(notice); // 저장용
       }
     });
-  } else {
-    alert('글을 찾을 수 없습니다.');
-    location.href = '게시판.html';
+    localStorage.setItem(key, JSON.stringify(posts));
   }
-});
-window.addEventListener('DOMContentLoaded', () => {
-  const index = localStorage.getItem('viewPostIndex');
-  const posts = JSON.parse(localStorage.getItem('posts')) || [];
+  
 
-  if (index !== null && posts[index]) {
-    const post = posts[index];
-    document.getElementById('viewTitle').innerText = post.title;
-    document.getElementById('viewCategory').innerText = post.category;
-    document.getElementById('viewLanguage').innerText = post.language;
-    document.getElementById('viewAuthor').innerText = post.author;
-    document.getElementById('viewDate').innerText = post.date;
-    document.getElementById('viewContent').innerText = post.content;
+  list.innerHTML = posts.map((post, index) => `
+    <tr>
+      <td><a href="열람.html?type=${type}&index=${index}">${post.title}</a></td>
+      <td>${post.category || '-'}</td>
+      <td>${post.language || '-'}</td>
+      <td>${post.author}</td>
+      <td>${post.date}</td>
+    </tr>
+  `).join('');
 
-    // 버튼 동작 연결
-    document.getElementById('backBtn').addEventListener('click', () => {
-      const target = post.category === '공지' ? '게시판.html#notice' : '게시판.html';
-      location.href = target;
-    });
-
-    if (post.category !== '공지') {
-      // 공지가 아닐 경우에만 수정/삭제 버튼 보이게
-      document.getElementById('editBtn').addEventListener('click', () => {
-        localStorage.setItem('editPostIndex', index);
-        location.href = '작성.html';
-      });
-
-      document.getElementById('deleteBtn').addEventListener('click', () => {
-        if (confirm("정말 삭제하시겠습니까?")) {
-          posts.splice(index, 1);
-          localStorage.setItem('posts', JSON.stringify(posts));
-          location.href = '게시판.html';
-        }
-      });
+  // 버튼 강조 처리
+  const qBtn = document.getElementById("questionBtn");
+  const nBtn = document.getElementById("noticeBtn");
+  if (qBtn && nBtn) {
+    if (type === 'question') {
+      qBtn.classList.add("btn--primary");
+      qBtn.classList.remove("btn--secondary");
+      nBtn.classList.add("btn--secondary");
+      nBtn.classList.remove("btn--primary");
     } else {
-      // 공지일 경우 버튼 숨김
-      document.getElementById('editBtn').style.display = 'none';
-      document.getElementById('deleteBtn').style.display = 'none';
+      nBtn.classList.add("btn--primary");
+      nBtn.classList.remove("btn--secondary");
+      qBtn.classList.add("btn--secondary");
+      qBtn.classList.remove("btn--primary");
     }
-  } else {
-    alert('글을 찾을 수 없습니다.');
-    location.href = '게시판.html';
   }
 });
-// === Navbar Page Switch Logic ===
-document.querySelectorAll('.nav-link[data-page]').forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
 
-    const targetPage = link.dataset.page;
+// 🔍 열람 페이지: 글 보기 + 수정/삭제 + 목록 버튼
+document.addEventListener('DOMContentLoaded', () => {
+  const viewTitle = document.getElementById('viewTitle');
+  if (!viewTitle) return;
 
-    // Remove active class from all pages and links
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  const params = new URLSearchParams(window.location.search);
+  const type = params.get('type') === 'notice' ? 'notice' : 'question';
+  const key = type === 'notice' ? 'notices' : 'posts';
+  const index = parseInt(params.get('index'), 10);
 
-    // Show selected page and highlight nav item
-    const pageToShow = document.getElementById(`${targetPage}-page`);
-    if (pageToShow) {
-      pageToShow.classList.add('active');
-      link.classList.add('active');
+  const posts = JSON.parse(localStorage.getItem(key) || '[]');
+  const post = posts[index];
+
+  if (!post) {
+    document.body.innerHTML = '<p>글을 찾을 수 없습니다.</p>';
+    return;
+  }
+
+  document.getElementById('viewTitle').textContent = post.title;
+  document.getElementById('viewAuthor').textContent = post.author;
+  document.getElementById('viewDate').textContent = post.date;
+  document.getElementById('viewContent').textContent = post.content;
+
+  const categoryEl = document.getElementById('viewCategory');
+  const languageEl = document.getElementById('viewLanguage');
+
+  if (type === 'notice') {
+    if (categoryEl) categoryEl.parentElement.style.display = 'none';
+    if (languageEl) languageEl.parentElement.style.display = 'none';
+  } else {
+    categoryEl.textContent = post.category;
+    languageEl.textContent = post.language;
+  }
+
+  document.getElementById('editBtn')?.addEventListener('click', () => {
+    localStorage.setItem('editIndex', index);
+    localStorage.setItem('editData', JSON.stringify(post));
+    window.location.href = `작성.html?type=${type}&edit=1`;
+  });
+
+  document.getElementById('deleteBtn')?.addEventListener('click', () => {
+    if (confirm('정말 삭제하시겠습니까?')) {
+      posts.splice(index, 1);
+      localStorage.setItem(key, JSON.stringify(posts));
+      window.location.href = `게시판.html?type=${type}`;
     }
   });
-});
 
-// === SPA Page Navigation ===
-document.querySelectorAll('.nav-link[data-page]').forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-
-    const targetPage = link.dataset.page;
-
-    // 페이지 전환
-    document.querySelectorAll('.page').forEach(page => {
-      page.classList.remove('active');
-    });
-    const target = document.getElementById(`${targetPage}-page`);
-    if (target) target.classList.add('active');
-
-    // 메뉴 강조
-    document.querySelectorAll('.nav-link').forEach(nav => {
-      nav.classList.remove('active');
-    });
-    link.classList.add('active');
+  // 목록 버튼 기능
+  document.getElementById('backBtn')?.addEventListener('click', () => {
+    window.location.href = `게시판.html?type=${type}`;
   });
 });
 
-// === 테마 전환 기능 (Light <-> Dark) ===
-const themeToggle = document.getElementById('theme-toggle');
-if (themeToggle) {
-  themeToggle.addEventListener('click', () => {
-    const html = document.documentElement;
-    const current = html.getAttribute('data-color-scheme') || 'light';
-    const next = current === 'light' ? 'dark' : 'light';
-
-    html.setAttribute('data-color-scheme', next);
-    themeToggle.textContent = next === 'dark' ? '☀️' : '🌙';
-  });
+// 📎 글쓰기 버튼 전환 함수 (제목 아래 버튼에서 사용)
+function goToWrite() {
+  const params = new URLSearchParams(window.location.search);
+  const type = params.get('type') === 'notice' ? 'notice' : 'question';
+  window.location.href = `작성.html?type=${type}`;
 }
+document.addEventListener("DOMContentLoaded", () => {
+  const navLinks = document.querySelectorAll(".nav-link");
 
-// === URL 해시를 통한 첫 진입 시 페이지 표시 (옵션 기능) ===
-window.addEventListener('DOMContentLoaded', () => {
-  const hashPage = window.location.hash.replace('#', '');
-  const defaultPage = hashPage || 'home';
-  const navLink = document.querySelector(`.nav-link[data-page="${defaultPage}"]`);
-  if (navLink) navLink.click();
+  navLinks.forEach(link => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault(); // 링크의 기본 동작 막기
+
+      const page = link.dataset.page;
+
+      // 현재 페이지가 "discussion"일 때는 아무 동작 안함 (이미 게시판 페이지)
+      if (page === "discussion") return;
+
+      // 다른 페이지는 해시값 변경으로 이동처럼 보이게 처리
+      location.hash = page;
+
+      // active 클래스 조정
+      navLinks.forEach(l => l.classList.remove("active"));
+      link.classList.add("active");
+    });
+  });
+
+  // 기본적으로 "토론"을 active로 표시 (게시판에서만)
+  document.querySelectorAll('[data-page="discussion"]').forEach(link => {
+    link.classList.add("active");
+  });
 });
-document.querySelectorAll('.nav-link[data-page]').forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
+document.addEventListener("DOMContentLoaded", () => {
+  
+  const navLinks = document.querySelectorAll(".nav-link");
+  const pages = document.querySelectorAll(".page");
 
-    const targetPage = link.dataset.page;
+  navLinks.forEach(link => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const page = link.dataset.page;
 
-    // 페이지 전환
-    document.querySelectorAll('.page').forEach(page => {
-      page.classList.remove('active');
+      
+
+      pages.forEach(p => p.classList.remove("active"));
+      const targetPage = document.getElementById(`${page}-page`);
+      if (targetPage) targetPage.classList.add("active");
+
+      navLinks.forEach(l => l.classList.remove("active"));
+      link.classList.add("active");
     });
-    const target = document.getElementById(`${targetPage}-page`);
-    if (target) target.classList.add('active');
+  });
 
-    // 메뉴 강조
-    document.querySelectorAll('.nav-link').forEach(nav => {
-      nav.classList.remove('active');
-    });
-    link.classList.add('active');
+  document.querySelectorAll('[data-page="discussion"]').forEach(link => {
+    link.classList.add("active");
   });
 });
