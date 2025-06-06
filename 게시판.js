@@ -1,4 +1,3 @@
-// 📌 초기 고정 공지 데이터
 const defaultNotices = [
   {
     title: "📢 서버 점검 안내",
@@ -17,18 +16,14 @@ const defaultNotices = [
     date: "2025-06-03"
   }
 ];
-
-// 📌 글 저장 함수
 function savePost(event) {
   event.preventDefault();
-
   const title = document.getElementById('title').value.trim();
   const category = document.getElementById('category')?.value || '';
   const language = document.getElementById('language')?.value || '';
   const author = document.getElementById('author').value.trim();
   const content = document.getElementById('content').value.trim();
   const date = new Date().toISOString().split('T')[0];
-
   const newPost = { title, category, language, author, content, date };
 
   const params = new URLSearchParams(window.location.search);
@@ -50,8 +45,6 @@ function savePost(event) {
   localStorage.setItem(key, JSON.stringify(posts));
   window.location.href = `게시판.html?type=${type}`;
 }
-
-// ✏️ 작성 페이지: 수정 시 데이터 불러오기 및 UI 설정
 document.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
   const isEdit = params.get('edit') === '1';
@@ -65,10 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (type === 'notice') {
-    const catEl = document.getElementById('category');
-    const langEl = document.getElementById('language');
-    if (catEl) catEl.style.display = 'none';
-    if (langEl) langEl.style.display = 'none';
+    document.getElementById('category')?.style.setProperty('display', 'none');
+    document.getElementById('language')?.style.setProperty('display', 'none');
   }
 
   if (isEdit) {
@@ -84,61 +75,76 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 });
-
-// 📝 게시판 목록 표시
 document.addEventListener('DOMContentLoaded', () => {
   const list = document.getElementById('postList');
   const title = document.getElementById('boardTitle');
-  if (!list || !title) return;
+  const pagination = document.getElementById('pagination');
+  if (!list || !title || !pagination) return;
 
   const params = new URLSearchParams(window.location.search);
   const type = params.get('type') === 'notice' ? 'notice' : 'question';
   const key = type === 'notice' ? 'notices' : 'posts';
-
   title.textContent = type === 'notice' ? '공지 게시판' : '질문 게시판';
 
   let posts = JSON.parse(localStorage.getItem(key) || '[]');
-
   if (type === 'notice') {
     const existingTitles = posts.map(p => p.title);
     defaultNotices.forEach(notice => {
-      if (!existingTitles.includes(notice.title)) {
-        posts.push(notice); // 저장용
-      }
+      if (!existingTitles.includes(notice.title)) posts.push(notice);
     });
     localStorage.setItem(key, JSON.stringify(posts));
   }
-  
 
-  list.innerHTML = posts.map((post, index) => `
-    <tr>
-      <td><a href="열람.html?type=${type}&index=${index}">${post.title}</a></td>
-      <td>${post.category || '-'}</td>
-      <td>${post.language || '-'}</td>
-      <td>${post.author}</td>
-      <td>${post.date}</td>
-    </tr>
-  `).join('');
+  const postsPerPage = 10;
+  let currentPage = 1;
 
-  // 버튼 강조 처리
+  function renderPosts() {
+    const start = (currentPage - 1) * postsPerPage;
+    const end = start + postsPerPage;
+    const pagePosts = posts.slice(start, end);
+
+    list.innerHTML = pagePosts.map((post, index) => `
+      <tr>
+        <td><a href="열람.html?type=${type}&index=${start + index}">${post.title}</a></td>
+        <td>${post.category || '-'}</td>
+        <td>${post.language || '-'}</td>
+        <td>${post.author}</td>
+        <td>${post.date}</td>
+      </tr>
+    `).join('');
+    renderPagination();
+  }
+
+  function renderPagination() {
+    const totalPages = Math.ceil(posts.length / postsPerPage);
+    pagination.innerHTML = "";
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement("button");
+      btn.className = "btn btn--outline";
+      btn.textContent = i;
+      if (i === currentPage) btn.classList.add("btn--primary");
+      btn.addEventListener("click", () => {
+        currentPage = i;
+        renderPosts();
+      });
+      pagination.appendChild(btn);
+    }
+  }
+
+  renderPosts();
+
   const qBtn = document.getElementById("questionBtn");
   const nBtn = document.getElementById("noticeBtn");
   if (qBtn && nBtn) {
     if (type === 'question') {
       qBtn.classList.add("btn--primary");
-      qBtn.classList.remove("btn--secondary");
       nBtn.classList.add("btn--secondary");
-      nBtn.classList.remove("btn--primary");
     } else {
       nBtn.classList.add("btn--primary");
-      nBtn.classList.remove("btn--secondary");
       qBtn.classList.add("btn--secondary");
-      qBtn.classList.remove("btn--primary");
     }
   }
 });
-
-// 🔍 열람 페이지: 글 보기 + 수정/삭제 + 목록 버튼
 document.addEventListener('DOMContentLoaded', () => {
   const viewTitle = document.getElementById('viewTitle');
   if (!viewTitle) return;
@@ -147,10 +153,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const type = params.get('type') === 'notice' ? 'notice' : 'question';
   const key = type === 'notice' ? 'notices' : 'posts';
   const index = parseInt(params.get('index'), 10);
-
   const posts = JSON.parse(localStorage.getItem(key) || '[]');
   const post = posts[index];
-
   if (!post) {
     document.body.innerHTML = '<p>글을 찾을 수 없습니다.</p>';
     return;
@@ -165,8 +169,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const languageEl = document.getElementById('viewLanguage');
 
   if (type === 'notice') {
-    if (categoryEl) categoryEl.parentElement.style.display = 'none';
-    if (languageEl) languageEl.parentElement.style.display = 'none';
+    categoryEl?.parentElement?.style.setProperty('display', 'none');
+    languageEl?.parentElement?.style.setProperty('display', 'none');
   } else {
     categoryEl.textContent = post.category;
     languageEl.textContent = post.language;
@@ -186,13 +190,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 목록 버튼 기능
   document.getElementById('backBtn')?.addEventListener('click', () => {
     window.location.href = `게시판.html?type=${type}`;
   });
 });
-
-// 📎 글쓰기 버튼 전환 함수 (제목 아래 버튼에서 사용)
 function goToWrite() {
   const params = new URLSearchParams(window.location.search);
   const type = params.get('type') === 'notice' ? 'notice' : 'question';
@@ -200,42 +201,12 @@ function goToWrite() {
 }
 document.addEventListener("DOMContentLoaded", () => {
   const navLinks = document.querySelectorAll(".nav-link");
-
-  navLinks.forEach(link => {
-    link.addEventListener("click", (e) => {
-      e.preventDefault(); // 링크의 기본 동작 막기
-
-      const page = link.dataset.page;
-
-      // 현재 페이지가 "discussion"일 때는 아무 동작 안함 (이미 게시판 페이지)
-      if (page === "discussion") return;
-
-      // 다른 페이지는 해시값 변경으로 이동처럼 보이게 처리
-      location.hash = page;
-
-      // active 클래스 조정
-      navLinks.forEach(l => l.classList.remove("active"));
-      link.classList.add("active");
-    });
-  });
-
-  // 기본적으로 "토론"을 active로 표시 (게시판에서만)
-  document.querySelectorAll('[data-page="discussion"]').forEach(link => {
-    link.classList.add("active");
-  });
-});
-document.addEventListener("DOMContentLoaded", () => {
-  
-  const navLinks = document.querySelectorAll(".nav-link");
   const pages = document.querySelectorAll(".page");
 
   navLinks.forEach(link => {
     link.addEventListener("click", (e) => {
       e.preventDefault();
       const page = link.dataset.page;
-
-      
-
       pages.forEach(p => p.classList.remove("active"));
       const targetPage = document.getElementById(`${page}-page`);
       if (targetPage) targetPage.classList.add("active");
@@ -244,8 +215,20 @@ document.addEventListener("DOMContentLoaded", () => {
       link.classList.add("active");
     });
   });
+});
+document.addEventListener("DOMContentLoaded", () => {
+  const questionBtn = document.getElementById("questionBtn");
+  const noticeBtn = document.getElementById("noticeBtn");
 
-  document.querySelectorAll('[data-page="discussion"]').forEach(link => {
-    link.classList.add("active");
-  });
+  if (questionBtn) {
+    questionBtn.addEventListener("click", () => {
+      window.location.href = "게시판.html?type=question";
+    });
+  }
+
+  if (noticeBtn) {
+    noticeBtn.addEventListener("click", () => {
+      window.location.href = "게시판.html?type=notice";
+    });
+  }
 });

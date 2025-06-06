@@ -7,6 +7,10 @@
   <style>
     .page { display: none; }
     .page.active { display: block; }
+    #pagination button.btn--primary {
+      background: var(--color-primary);
+      color: white;
+    }
   </style>
 </head>
 <body class="container py-16">
@@ -33,223 +37,14 @@
     </div>
   </nav>
 
-  <!-- 페이지 섹션들 -->
-   
-  <!-- Placeholder Pages -->
-  <div id="problems-page" class="page placeholder-page">
-    <div class="container">
-        <div class="placeholder-content">
-            <div class="placeholder-icon">🔧</div>
-            <h1>문제</h1>
-            <p>이 페이지는 아직 구현 중입니다</p>
-            <div class="construction-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill animated" style="width: 60%"></div>
-                </div>
-                <span>60% 완료</span>
-            </div>
-            <button class="btn btn--primary" data-page="home">메인페이지로 돌아가기</button>
-        </div>
-    </div>
-</div>
-
-<div id="rankings-page" class="page placeholder-page">
-    <div class="container">
-        <div class="placeholder-content">
-            <div class="placeholder-icon">🏆</div>
-            <h1>랭킹</h1>
-            <p>이 페이지는 아직 구현 중입니다</p>
-            <div class="construction-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill animated" style="width: 40%"></div>
-                </div>
-                <span>40% 완료</span>
-            </div>
-            <button class="btn btn--primary" data-page="home">메인페이지로 돌아가기</button>
-        </div>
-    </div>
-</div>
-
-  <!-- 마이페이지 및 회원가입 섹션 -->
-  <div id="signup-page" class="page">
-  <div class="signup-bg"></div>
-  <div class="container">
-    <div class="signup-container">
-      <div class="signup-header">
-        <h1>회원가입</h1>
-        <p>코딩플랫폼에 오신 것을 환영합니다</p>
-      </div>
-      <form id="signup-form" class="signup-form card glass-effect">
-        <div class="form-group">
-          <label for="username" class="form-label">사용자명</label>
-          <div class="input-wrapper">
-            <input type="text" id="username" name="username" class="form-control" required>
-            <div class="input-icon">👤</div>
-          </div>
-          <div class="error-message" id="username-error"></div>
-        </div>
-        <div class="form-group">
-          <label for="email" class="form-label">이메일</label>
-          <div class="input-wrapper">
-            <input type="email" id="email" name="email" class="form-control" required>
-            <div class="input-icon">📧</div>
-          </div>
-          <div class="error-message" id="email-error"></div>
-        </div>
-        <div class="form-group">
-          <label for="password" class="form-label">비밀번호</label>
-          <div class="input-wrapper">
-            <input type="password" id="password" name="password" class="form-control" required>
-            <div class="input-icon">🔒</div>
-          </div>
-          <div class="password-strength">
-            <div class="strength-bar">
-              <div class="strength-fill"></div>
-            </div>
-            <div class="strength-text">비밀번호 강도</div>
-          </div>
-          <div class="error-message" id="password-error"></div>
-        </div>
-        <div class="form-group">
-          <label for="confirm-password" class="form-label">비밀번호 확인</label>
-          <div class="input-wrapper">
-            <input type="password" id="confirm-password" name="confirm-password" class="form-control" required>
-            <div class="input-icon">🔐</div>
-          </div>
-          <div class="error-message" id="confirm-password-error"></div>
-        </div>
-        <button type="submit" class="btn btn--primary btn--full-width btn--lg">
-          <span>회원가입</span>
-          <div class="btn-shine"></div>
-        </button>
-      </form>
-      <div class="signup-footer">
-        <p>이미 계정이 있으신가요? <a href="#" data-page="login">로그인</a></p>
-        <button class="btn btn--outline" data-page="home">메인페이지로 돌아가기</button>
-      </div>
-      <div id="success-message" class="success-message hidden">
-        <div class="status status--success">회원가입이 완료되었습니다! 🎉</div>
-      </div>
-    </div>
-  </div>
-</div>
-  </div>
-
-  <div id="mypage-page" class="page">
-  <div class="container">
-    <div class="mypage-container">
-      <div class="page-header">
-        <h1>마이페이지</h1>
-        <p>학습 진행 상황과 성취를 확인하세요</p>
-      </div>
-      <section class="profile-section">
-        <div class="profile-card card glass-effect">
-          <div class="card__body">
-            <div class="profile-header">
-              <div class="avatar-container">
-                <div class="avatar-placeholder">👨‍💻</div>
-                <div class="status-indicator online"></div>
-              </div>
-              <div class="profile-info">
-                <h2>김개발</h2>
-                <p class="user-email">dev.kim@example.com</p>
-                <div class="user-badges">
-                  <span class="tier-badge gold">Silver III</span>
-                  <span class="achievement-badge">🔥 연속학습자</span>
-                </div>
-                <div class="profile-stats">
-                  <div class="stat-item">
-                    <div class="stat-label">가입일</div>
-                    <div class="stat-value">2024.03.15</div>
-                  </div>
-                  <div class="stat-item">
-                    <div class="stat-label">포인트</div>
-                    <div class="stat-value">1,250 pt</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="dashboard-section">
-        <h2>나의 통계</h2>
-        <div class="dashboard-grid">
-          <div class="dashboard-card card glass-effect">
-            <div class="card__body">
-              <div class="dashboard-stat">
-                <div class="stat-icon">✅</div>
-                <div class="stat-number counter" data-target="42">0</div>
-                <div class="stat-label">해결한 문제</div>
-              </div>
-            </div>
-          </div>
-          <div class="dashboard-card card glass-effect">
-            <div class="card__body">
-              <div class="dashboard-stat">
-                <div class="stat-icon">🏆</div>
-                <div class="stat-number counter" data-target="1542">0</div>
-                <div class="stat-label">전체 랭킹</div>
-              </div>
-            </div>
-          </div>
-          <div class="dashboard-card card glass-effect">
-            <div class="card__body">
-              <div class="dashboard-stat">
-                <div class="stat-icon">🔥</div>
-                <div class="stat-number counter" data-target="15">0</div>
-                <div class="stat-label">연속 풀이 (일)</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="activity-section">
-        <h2>최근 활동</h2>
-        <div class="card glass-effect">
-          <div class="card__body">
-            <div class="activity-timeline">
-              <div class="timeline-item">
-                <div class="timeline-marker solved"></div>
-                <div class="timeline-content">
-                  <div class="activity-type">문제 해결</div>
-                  <h4>두 수의 합</h4>
-                  <div class="activity-time">2시간 전</div>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-marker attempted"></div>
-                <div class="timeline-content">
-                  <div class="activity-type">시도</div>
-                  <h4>정렬 알고리즘</h4>
-                  <div class="activity-time">5시간 전</div>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-marker solved"></div>
-                <div class="timeline-content">
-                  <div class="activity-type">문제 해결</div>
-                  <h4>그래프 탐색</h4>
-                  <div class="activity-time">1일 전</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-  </div>
-</div>
-  </div>
-
-  <!-- 토론 (게시판 본문) -->
+  <!-- 게시판 페이지 (discussion) -->
   <div id="discussion-page" class="page active">
     <br>
     <h2 id="boardTitle" class="mb-16">게시판</h2>
     <br>
     <div class="flex gap-8 mb-16">
-      <button id="questionBtn" class="btn" onclick="location.href='게시판.html?type=question'">질문 게시판</button>
-      <button id="noticeBtn" class="btn" onclick="location.href='게시판.html?type=notice'">공지 게시판</button>
+      <button id="questionBtn" class="btn">질문 게시판</button>
+      <button id="noticeBtn" class="btn">공지 게시판</button>
     </div>
 
     <table class="table mb-16">
@@ -265,42 +60,520 @@
       <tbody id="postList"></tbody>
     </table>
 
+    <div id="pagination" class="flex gap-8 mt-16 justify-center"></div>
+
     <button class="btn btn--primary" onclick="goToWrite()">글쓰기</button>
   </div>
 
+  <!-- Main Content Container -->
+  <main class="main-content">
+    <!-- Home Page -->
+    <div id="home-page" class="page">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-bg-pattern"></div>
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span>🎯 15일 연속 학습 중</span>
+                    </div>
+                    <h1>프로그래밍 학습의<br><span class="gradient-text">새로운 시작</span></h1>
+                    <p>15,000개 이상의 문제와 체계적인 커리큘럼으로<br>코딩 실력을 향상시키세요</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn--primary btn--lg" data-page="signup">
+                            <span>시작하기</span>
+                            <div class="btn-shine"></div>
+                        </button>
+                        <button class="btn btn--outline btn--lg" data-page="problems">문제 둘러보기</button>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <div class="stat-number">15,420</div>
+                            <div class="stat-label">문제</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="stat-number">89,234</div>
+                            <div class="stat-label">사용자</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="stat-number">2.4M+</div>
+                            <div class="stat-label">제출</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-scroll-indicator">
+                <div class="scroll-arrow">↓</div>
+            </div>
+        </section>
+
+        <!-- Learning Progress Section -->
+        <section class="progress-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>나의 학습 현황</h2>
+                    <p>오늘도 한 걸음 더 나아가보세요</p>
+                </div>
+                <div class="progress-grid">
+                    <div class="progress-card card glass-effect">
+                        <div class="card__body">
+                            <div class="card-icon">🔥</div>
+                            <h3>연속 학습</h3>
+                            <div class="progress-number">15일</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%"></div>
+                            </div>
+                            <p>다음 목표까지 5일</p>
+                        </div>
+                    </div>
+                    <div class="progress-card card glass-effect">
+                        <div class="card__body">
+                            <div class="card-icon">🎯</div>
+                            <h3>문제 해결</h3>
+                            <div class="progress-number">42<span>/100</span></div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 42%"></div>
+                            </div>
+                            <p>Silver 달성까지 58문제</p>
+                        </div>
+                    </div>
+                    <div class="progress-card card glass-effect">
+                        <div class="card__body">
+                            <div class="card-icon">🏆</div>
+                            <h3>현재 티어</h3>
+                            <div class="tier-badge">Silver III</div>
+                            <div class="tier-points">1,250 pt</div>
+                            <p>다음 티어까지 250pt</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Today's Recommendations -->
+        <section class="recommendations">
+            <div class="container">
+                <div class="section-header">
+                    <h2>오늘의 추천 문제</h2>
+                    <p>당신의 실력에 맞춘 문제들</p>
+                </div>
+                <div class="recommendations-grid">
+                    <div class="problem-card card hover-lift">
+                        <div class="card__body">
+                            <div class="problem-header">
+                                <span class="problem-id">#3456</span>
+                                <span class="difficulty-badge silver">Silver</span>
+                            </div>
+                            <h3>이진 검색</h3>
+                            <p class="problem-category">알고리즘</p>
+                            <div class="problem-meta">
+                                <span class="time-estimate">⏱️ 30분</span>
+                                <span class="success-rate">✅ 67%</span>
+                            </div>
+                            <button class="btn btn--primary btn--sm">도전하기</button>
+                        </div>
+                    </div>
+                    <div class="problem-card card hover-lift">
+                        <div class="card__body">
+                            <div class="problem-header">
+                                <span class="problem-id">#7890</span>
+                                <span class="difficulty-badge bronze">Bronze</span>
+                            </div>
+                            <h3>스택과 큐</h3>
+                            <p class="problem-category">자료구조</p>
+                            <div class="problem-meta">
+                                <span class="time-estimate">⏱️ 20분</span>
+                                <span class="success-rate">✅ 83%</span>
+                            </div>
+                            <button class="btn btn--primary btn--sm">도전하기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Activity -->
+        <section class="activity-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>최근 활동</h2>
+                    <p>지금까지의 학습 여정</p>
+                </div>
+                <div class="activity-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker solved"></div>
+                        <div class="timeline-content">
+                            <div class="activity-type">문제 해결</div>
+                            <h4>#1234 두 수의 합 <span class="difficulty-badge bronze">Bronze</span></h4>
+                            <div class="activity-time">2시간 전</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker attempted"></div>
+                        <div class="timeline-content">
+                            <div class="activity-type">시도</div>
+                            <h4>#5678 정렬 알고리즘 <span class="difficulty-badge silver">Silver</span></h4>
+                            <div class="activity-time">5시간 전</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker solved"></div>
+                        <div class="timeline-content">
+                            <div class="activity-type">문제 해결</div>
+                            <h4>#9012 그래프 탐색 <span class="difficulty-badge gold">Gold</span></h4>
+                            <div class="activity-time">1일 전</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="container">
+                <div class="section-header">
+                    <h2>왜 코딩플랫폼인가요?</h2>
+                    <p>차별화된 학습 경험</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card card glass-effect">
+                        <div class="card__body">
+                            <div class="feature-icon">📚</div>
+                            <h3>다양한 문제</h3>
+                            <p>알고리즘부터 실무까지 15,000개 이상의 검증된 문제</p>
+                        </div>
+                    </div>
+                    <div class="feature-card card glass-effect">
+                        <div class="card__body">
+                            <div class="feature-icon">⚡</div>
+                            <h3>자동 채점</h3>
+                            <p>실시간 코드 검증 및 상세한 피드백 제공</p>
+                        </div>
+                    </div>
+                    <div class="feature-card card glass-effect">
+                        <div class="card__body">
+                            <div class="feature-icon">🏆</div>
+                            <h3>랭킹 시스템</h3>
+                            <p>실력에 따른 티어 시스템과 건전한 경쟁</p>
+                        </div>
+                    </div>
+                    <div class="feature-card card glass-effect">
+                        <div class="card__body">
+                            <div class="feature-icon">🎯</div>
+                            <h3>맞춤 학습</h3>
+                            <p>개인 수준에 맞는 체계적인 학습 커리큘럼</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Registration Page -->
+    <div id="signup-page" class="page">
+        <div class="signup-bg"></div>
+        <div class="container">
+            <div class="signup-container">
+                <div class="signup-header">
+                    <h1>회원가입</h1>
+                    <p>코딩플랫폼에 오신 것을 환영합니다</p>
+                </div>
+                <form id="signup-form" class="signup-form card glass-effect">
+                    <div class="form-group">
+                        <label for="username" class="form-label">사용자명</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="username" name="username" class="form-control" required>
+                            <div class="input-icon">👤</div>
+                        </div>
+                        <div class="error-message" id="username-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="form-label">이메일</label>
+                        <div class="input-wrapper">
+                            <input type="email" id="email" name="email" class="form-control" required>
+                            <div class="input-icon">📧</div>
+                        </div>
+                        <div class="error-message" id="email-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="form-label">비밀번호</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="password" name="password" class="form-control" required>
+                            <div class="input-icon">🔒</div>
+                        </div>
+                        <div class="password-strength">
+                            <div class="strength-bar">
+                                <div class="strength-fill"></div>
+                            </div>
+                            <div class="strength-text">비밀번호 강도</div>
+                        </div>
+                        <div class="error-message" id="password-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password" class="form-label">비밀번호 확인</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="confirm-password" name="confirm-password" class="form-control" required>
+                            <div class="input-icon">🔐</div>
+                        </div>
+                        <div class="error-message" id="confirm-password-error"></div>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full-width btn--lg">
+                        <span>회원가입</span>
+                        <div class="btn-shine"></div>
+                    </button>
+                </form>
+                <div class="signup-footer">
+                    <p>이미 계정이 있으신가요? <a href="#" data-page="login">로그인</a></p>
+                    <button class="btn btn--outline" data-page="home">메인페이지로 돌아가기</button>
+                </div>
+                <div id="success-message" class="success-message hidden">
+                    <div class="status status--success">회원가입이 완료되었습니다! 🎉</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- My Page -->
+    <div id="mypage-page" class="page">
+        <div class="container">
+            <div class="mypage-container">
+                <div class="page-header">
+                    <h1>마이페이지</h1>
+                    <p>학습 진행 상황과 성취를 확인하세요</p>
+                </div>
+                
+                <!-- User Profile Section -->
+                <section class="profile-section">
+                    <div class="profile-card card glass-effect">
+                        <div class="card__body">
+                            <div class="profile-header">
+                                <div class="avatar-container">
+                                    <div class="avatar-placeholder">👨‍💻</div>
+                                    <div class="status-indicator online"></div>
+                                </div>
+                                <div class="profile-info">
+                                    <h2>김개발</h2>
+                                    <p class="user-email">dev.kim@example.com</p>
+                                    <div class="user-badges">
+                                        <span class="tier-badge gold">Silver III</span>
+                                        <span class="achievement-badge">🔥 연속학습자</span>
+                                    </div>
+                                    <div class="profile-stats">
+                                        <div class="stat-item">
+                                            <div class="stat-label">가입일</div>
+                                            <div class="stat-value">2024.03.15</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-label">포인트</div>
+                                            <div class="stat-value">1,250 pt</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Statistics Dashboard -->
+                <section class="dashboard-section">
+                    <h2>나의 통계</h2>
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card card glass-effect">
+                            <div class="card__body">
+                                <div class="dashboard-stat">
+                                    <div class="stat-icon">✅</div>
+                                    <div class="stat-number counter" data-target="42">0</div>
+                                    <div class="stat-label">해결한 문제</div>
+                                    <div class="stat-progress">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 42%"></div>
+                                        </div>
+                                        <span>42%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dashboard-card card glass-effect">
+                            <div class="card__body">
+                                <div class="dashboard-stat">
+                                    <div class="stat-icon">🏆</div>
+                                    <div class="stat-number counter" data-target="1542">0</div>
+                                    <div class="stat-label">전체 랭킹</div>
+                                    <div class="rank-change up">↗ +23</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dashboard-card card glass-effect">
+                            <div class="card__body">
+                                <div class="dashboard-stat">
+                                    <div class="stat-icon">🔥</div>
+                                    <div class="stat-number counter" data-target="15">0</div>
+                                    <div class="stat-label">연속 풀이 (일)</div>
+                                    <div class="streak-visual">
+                                        🔥🔥🔥🔥🔥
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Achievements -->
+                <section class="achievements-section">
+                    <h2>성취</h2>
+                    <div class="achievements-grid">
+                        <div class="achievement-card card earned">
+                            <div class="card__body">
+                                <div class="achievement-icon">🎯</div>
+                                <h4>첫 문제 해결</h4>
+                                <p>첫 번째 문제를 성공적으로 해결했습니다</p>
+                                <div class="achievement-date">2024.03.15</div>
+                            </div>
+                        </div>
+                        <div class="achievement-card card earned">
+                            <div class="card__body">
+                                <div class="achievement-icon">🔥</div>
+                                <h4>연속 학습자</h4>
+                                <p>7일 연속으로 문제를 해결했습니다</p>
+                                <div class="achievement-date">2024.03.22</div>
+                            </div>
+                        </div>
+                        <div class="achievement-card card in-progress">
+                            <div class="card__body">
+                                <div class="achievement-icon">🥈</div>
+                                <h4>실버 달성</h4>
+                                <p>실버 티어에 도달했습니다</p>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 75%"></div>
+                                </div>
+                                <div class="progress-text">75% 완료</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Recent Activity -->
+                <section class="activity-section">
+                    <h2>최근 활동</h2>
+                    <div class="card glass-effect">
+                        <div class="card__body">
+                            <div class="activity-timeline">
+                                <div class="timeline-item">
+                                    <div class="timeline-marker solved"></div>
+                                    <div class="timeline-content">
+                                        <div class="activity-header">
+                                            <span class="activity-type">문제 해결</span>
+                                            <span class="activity-time">2시간 전</span>
+                                        </div>
+                                        <h4>두 수의 합</h4>
+                                        <div class="activity-meta">
+                                            <span class="difficulty-badge bronze">Bronze</span>
+                                            <span class="solve-time">⏱️ 15분</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-marker attempted"></div>
+                                    <div class="timeline-content">
+                                        <div class="activity-header">
+                                            <span class="activity-type">시도</span>
+                                            <span class="activity-time">5시간 전</span>
+                                        </div>
+                                        <h4>정렬 알고리즘</h4>
+                                        <div class="activity-meta">
+                                            <span class="difficulty-badge silver">Silver</span>
+                                            <span class="attempt-count">3회 시도</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-marker solved"></div>
+                                    <div class="timeline-content">
+                                        <div class="activity-header">
+                                            <span class="activity-type">문제 해결</span>
+                                            <span class="activity-time">1일 전</span>
+                                        </div>
+                                        <h4>그래프 탐색</h4>
+                                        <div class="activity-meta">
+                                            <span class="difficulty-badge gold">Gold</span>
+                                            <span class="solve-time">⏱️ 45분</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Account Settings -->
+                <section class="settings-section">
+                    <h2>계정 설정</h2>
+                    <div class="card glass-effect">
+                        <div class="card__body">
+                            <div class="settings-grid">
+                                <button class="setting-item btn btn--outline">
+                                    <div class="setting-icon">👤</div>
+                                    <div class="setting-info">
+                                        <div class="setting-title">프로필 수정</div>
+                                        <div class="setting-desc">개인 정보 변경</div>
+                                    </div>
+                                </button>
+                                <button class="setting-item btn btn--outline">
+                                    <div class="setting-icon">🔒</div>
+                                    <div class="setting-info">
+                                        <div class="setting-title">비밀번호 변경</div>
+                                        <div class="setting-desc">보안 설정</div>
+                                    </div>
+                                </button>
+                                <button class="setting-item btn btn--outline">
+                                    <div class="setting-icon">🔔</div>
+                                    <div class="setting-info">
+                                        <div class="setting-title">알림 설정</div>
+                                        <div class="setting-desc">푸시 알림 관리</div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Placeholder Pages -->
+    <div id="problems-page" class="page placeholder-page">
+        <div class="container">
+            <div class="placeholder-content">
+                <div class="placeholder-icon">🔧</div>
+                <h1>문제</h1>
+                <p>이 페이지는 아직 구현 중입니다</p>
+                <div class="construction-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill animated" style="width: 60%"></div>
+                    </div>
+                    <span>60% 완료</span>
+                </div>
+                <button class="btn btn--primary" data-page="home">메인페이지로 돌아가기</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="rankings-page" class="page placeholder-page">
+        <div class="container">
+            <div class="placeholder-content">
+                <div class="placeholder-icon">🏆</div>
+                <h1>랭킹</h1>
+                <p>이 페이지는 아직 구현 중입니다</p>
+                <div class="construction-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill animated" style="width: 40%"></div>
+                    </div>
+                    <span>40% 완료</span>
+                </div>
+                <button class="btn btn--primary" data-page="home">메인페이지로 돌아가기</button>
+            </div>
+        </div>
+    </div>
   <script src="게시판.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const passwordInput = document.getElementById("password");
-  const confirmPasswordInput = document.getElementById("confirm-password");
-  const strengthFill = document.querySelector(".strength-fill");
-  const strengthText = document.querySelector(".strength-text");
-  const confirmError = document.getElementById("confirm-password-error");
-
-  function updatePasswordStrength(password) {
-    let score = 0;
-    if (password.length >= 8) score += 1;
-    if (/[A-Z]/그.test(password)) score += 1;
-    if (/[0-9]/.test(password)) score += 1;
-    if (/[^A-Za-z0-9]/.test(password)) score += 1;
-
-    const percent = (score / 4) * 100;
-    strengthFill.style.width = percent + "%";
-
-    const levels = ["매우 약함", "약함", "보통", "강함", "매우 강함"];
-    strengthText.textContent = "비밀번호 강도: " + levels[score];
-  }
-
-  passwordInput?.addEventListener("input", () => {
-    updatePasswordStrength(passwordInput.value);
-  });
-
-  confirmPasswordInput?.addEventListener("input", () => {
-    const match = passwordInput.value === confirmPasswordInput.value;
-    confirmError.textContent = match ? "" : "비밀번호가 일치하지 않습니다.";
-  });
-});
-</script>
-  
 </body>
 </html>
