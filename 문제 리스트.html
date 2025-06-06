@@ -38,6 +38,7 @@
   </style>
 </head>
 <body>
+  
   <nav class="navbar">
     <div class="container">
       <div class="navbar-content">
@@ -60,6 +61,15 @@
       <h2>문제 리스트</h2>
       <p>문제를 유형별로 탐색해보세요</p>
     </div>
+     <div class="search-wrapper" style="margin: 20px 0;">
+    <input
+      type="text"
+      id="search-input"
+      class="form-control"
+      placeholder="문제 검색 (예: A+B 또는 제목 일부)"
+      style="padding: 10px; width: 100%; max-width: 400px;"
+    />
+  </div>
 
     <div class="tabs flex gap-8 my-8">
       <button class="tab btn btn--outline active" data-tab="all">전체</button>
@@ -74,8 +84,27 @@
           <tr><th>📌문제</th><th>문제제목</th><th>정보</th></tr>
         </thead>
         <tbody>
-          <tr onclick="location.href='1.html'"><td>0001</td><td>A+B</td><td>Bronze</td></tr>
-          <tr onclick="location.href='2.html'"><td>0002</td><td>A-B</td><td>Bronze</td></tr>
+          <tr onclick="location.href='1.html'"><td>0001</td><td>A+B</td><td>Bronze 5</td></tr>
+          <tr onclick="location.href='2.html'"><td>0002</td><td>A-B</td><td>Bronze 5</td></tr>
+          <tr onclick="location.href='2.html'"><td>0003</td><td>A/B</td><td>Bronze 5</td></tr>
+          <tr onclick="location.href='2.html'"><td>0004</td><td>A*B</td><td>Bronze 5</td></tr>
+          <tr onclick="location.href='2.html'"><td>0005</td><td>약수</td><td>Bronze 1</td></tr>
+          <tr onclick="location.href='2.html'"><td>0006</td><td>최소공배수</td><td>Bronze 1</td></tr>
+          <tr onclick="location.href='2.html'"><td>0007</td><td>펠린드롬 문장</td><td>Silver 4</td></tr>
+          <tr onclick="location.href='2.html'"><td>0008</td><td>별 찍기</td><td>Bronze 3</td></tr>
+          <tr onclick="location.href='2.html'"><td>0009</td><td>피라미드</td><td>Bronze 2</td></tr>
+          <tr onclick="location.href='2.html'"><td>0010</td><td>문자열 반복</td><td>Bronze 2</td></tr>
+          <tr onclick="location.href='2.html'"><td>0011</td><td>문자와 문자열</td><td>Bronze 5</td></tr>
+          <tr onclick="location.href='2.html'"><td>0012</td><td>알파벳 찾기</td><td>Bronze 2</td></tr>
+          <tr onclick="location.href='array1.html'"><td>0013</td><td>배열의 평균</td><td>Bronze 4</td></tr>
+          <tr onclick="location.href='array3.html'"><td>0014</td><td>행렬 덧셈</td><td>Bronze 3</td></tr>
+          <tr onclick="location.href='struct1.html'"><td>0015</td><td>학생 정보 구조체</td><td>Bronze 3</td></tr>
+          <tr onclick="location.href='array2.html'"><td>0016</td><td>2차원 배열 탐색</td><td>Bronze 2</td></tr>
+          <tr onclick="location.href='struct3.html'"><td>0017</td><td>나이순 정렬</td><td>Bronze 2</td></tr>
+          <tr onclick="location.href='struct2.html'"><td>0018</td><td>도서 관리 구조체</td><td>Silver 5</td></tr>
+          <tr onclick="location.href='array4.html'"><td>0019</td><td>배열 돌리기 1</td><td>Silver 5</td></tr>
+          <tr onclick="location.href='struct4.html'"><td>0020</td><td>국영수</td><td>Silver 4</td></tr>
+          <tr onclick="location.href='array5.html'"><td>0021</td><td>배열 회전</td><td>Ruby 1</td></tr>
         </tbody>
       </table>
     </div>
@@ -87,15 +116,17 @@
           <tr><th>📌문제</th><th>문제제목</th><th>정보</th></tr>
         </thead>
         <tbody>
-          <tr onclick="showStepDetail('math')">
-            <td>0101</td>
-            <td>수식</td>
-            <td>괄호, 사칙연산 등</td>
+          <tr onclick="showStepDetail('math')" data-category="math">
+            <td>0101</td><td>수식</td><td>사칙연산, 괄호 계산 등</td>
           </tr>
-          <tr onclick="showStepDetail('string')">
-            <td>0201</td>
-            <td>문자열</td>
-            <td>회문 검사, 문자열 처리</td>
+          <tr onclick="showStepDetail('string')" data-category="string">
+            <td>0201</td><td>문자열</td><td>회문 검사, 문자열 처리</td>
+          </tr>
+          <tr onclick="showStepDetail('array')" data-category="array">
+            <td>0301</td><td>배열</td><td>1차원/2차원 배열</td>
+          </tr>
+          <tr onclick="showStepDetail('structure')" data-category="structure">
+            <td>0401</td><td>구조체</td><td>사용자 정의 자료형</td>
           </tr>
         </tbody>
       </table>
@@ -114,8 +145,28 @@
           <tr><th>📌문제</th><th>문제제목</th><th>정보</th></tr>
         </thead>
         <tbody>
-          <tr onclick="location.href='level1.html'"><td>1001</td><td>이진 탐색</td><td>Silver</td></tr>
-          <tr onclick="location.href='level2.html'"><td>1002</td><td>해시맵 정렬</td><td>Gold</td></tr>
+<tr onclick="location.href='2.html'"><td>0001</td><td>A-B</td><td>Bronze 5</td></tr>
+<tr onclick="location.href='2.html'"><td>0002</td><td>A/B</td><td>Bronze 5</td></tr>
+<tr onclick="location.href='2.html'"><td>0003</td><td>A*B</td><td>Bronze 5</td></tr>
+<tr onclick="location.href='2.html'"><td>0004</td><td>문자와 문자열</td><td>Bronze 5</td></tr>
+<tr onclick="location.href='array1.html'"><td>0005</td><td>배열의 평균</td><td>Bronze 4</td></tr>
+<tr onclick="location.href='2.html'"><td>0006</td><td>별 찍기</td><td>Bronze 3</td></tr>
+        <tr onclick="location.href='array3.html'"><td>0007</td><td>행렬 덧셈</td><td>Bronze 3</td></tr>
+        <tr onclick="location.href='struct1.html'"><td>0008</td><td>학생 정보 구조체</td><td>Bronze 3</td></tr>
+        <tr onclick="location.href='2.html'"><td>0009</td><td>피라미드</td><td>Bronze 2</td></tr>
+        <tr onclick="location.href='2.html'"><td>0010</td><td>문자열 반복</td><td>Bronze 2</td></tr>
+        <tr onclick="location.href='2.html'"><td>0011</td><td>알파벳 찾기</td><td>Bronze 2</td></tr>
+        <tr onclick="location.href='array2.html'"><td>0012</td><td>2차원 배열 탐색</td><td>Bronze 2</td></tr>
+        <tr onclick="location.href='struct3.html'"><td>0013</td><td>나이순 정렬</td><td>Bronze 2</td></tr>
+        <tr onclick="location.href='2.html'"><td>0014</td><td>약수</td><td>Bronze 1</td></tr>
+        <tr onclick="location.href='2.html'"><td>0015</td><td>최소공배수</td><td>Bronze 1</td></tr>
+        <tr onclick="location.href='array4.html'"><td>0016</td><td>배열 돌리기 1</td><td>Silver 5</td></tr>
+        <tr onclick="location.href='struct2.html'"><td>0017</td><td>도서 관리 구조체</td><td>Silver 5</td></tr>
+        <tr onclick="location.href='2.html'"><td>0018</td><td>펠린드롬 문장</td><td>Silver 4</td></tr>
+        <tr onclick="location.href='struct4.html'"><td>0019</td><td>국영수</td><td>Silver 4</td></tr>
+        <tr onclick="location.href='level1.html'"><td>0020</td><td>이진 탐색</td><td>Silver 3</td></tr>
+        <tr onclick="location.href='level2.html'"><td>0021</td><td>해시맵 정렬</td><td>Gold 3</td></tr>
+        <tr onclick="location.href='array5.html'"><td>0022</td><td>배열 회전</td><td>Ruby 1</td></tr>
         </tbody>
       </table>
     </div>
