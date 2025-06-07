@@ -452,11 +452,6 @@ function applySearch(keyword) {
     return;
   }
 
-  // category(난이도순) 탭의 tbody는 건드리지 않음
-  if (visibleContent.id === "category") {
-    return;
-  }
-
   const rows = visibleContent.querySelectorAll("tbody tr");
   rows.forEach(row => {
     const titleCell = row.querySelector("td:nth-child(2)");
