@@ -1,3 +1,4 @@
+
 :root {
   /* Colors */
   --color-background: rgba(252, 252, 249, 1);
@@ -622,34 +623,6 @@ select.form-control {
 }
 .hidden {
   display: none;
-}
-
-/* list.css의 문제 테이블 스타일 복사 */
-.problem-table {
-  width: 100%;
-  table-layout: fixed;
-  border-collapse: collapse;
-  background-color: var(--color-surface);
-  color: var(--color-text);
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.problem-table th,
-.problem-table td {
-  padding: 12px 16px;
-  text-align: left;
-  border-bottom: 1px solid var(--color-border);
-}
-
-.problem-table th {
-  background-color: var(--color-secondary);
-  font-weight: bold;
-}
-
-.problem-table tr:hover {
-  background-color: var(--color-secondary-hover);
-  cursor: pointer;
 }
 
 /* Accessibility */
@@ -2185,6 +2158,35 @@ a:hover {
   cursor: not-allowed;
 }
 
+/* Utility classes */
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+.items-center {
+  align-items: center;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.gap-4 {
+  gap: var(--space-4);
+}
+.gap-8 {
+  gap: var(--space-8);
+}
+.gap-16 {
+  gap: var(--space-16);
+}
+.hidden {
+  display: none;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .navbar-nav {
@@ -2301,25 +2303,30 @@ a:hover {
     format('woff2');
   font-display: swap;
 }
-th, td {
-  padding: 16px 24px;
-  text-align: left;
+.hidden {
+  display: none;
 }
-th:first-child, td:first-child {
-  padding-left: 32px;
-}
-table {
-  table-layout: fixed;
+.text-left-inside {
+  display: inline-block;
   width: 100%;
+  text-align: left;
+  padding-left: 1rem;
 }
-.button-group > button {
-  margin-right: 30px;
+.problem-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--color-surface);
+  color: var(--color-text);
 }
 
-.button-group > button:last-child {
-  margin-right: 0;
+.problem-table th,
+.problem-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
 }
-.button-group {
-  margin-top: 32px;  /* 위 여백 */
-  margin-bottom: 32px; /* 아래 여백 */
+
+.problem-table tr:hover {
+  background-color: var(--color-secondary-hover);
+  cursor: pointer;
 }
