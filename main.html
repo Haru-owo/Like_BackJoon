@@ -525,19 +525,71 @@
             </div>
         </div>
 
-        <div id="discussion-page" class="page placeholder-page">
+        <div id="discussion-page" class="page">
             <div class="container">
-                <div class="placeholder-content">
-                    <div class="placeholder-icon">💬</div>
-                    <h1>토론</h1>
-                    <p>이 페이지는 아직 구현 중입니다</p>
-                    <div class="construction-progress">
-                        <div class="progress-bar">
-                            <div class="progress-fill animated" style="width: 20%"></div>
-                        </div>
-                        <span>20% 완료</span>
+                <div class="discussion-content">
+                    <h2 id="boardTitle" class="mb-16">게시판</h2>
+                    <div class="flex gap-8 mb-16">
+                        <button id="questionBtn" class="btn">질문 게시판</button>
+                        <button id="noticeBtn" class="btn">공지 게시판</button>
                     </div>
-                    <button class="btn btn--primary" data-page="home">메인페이지로 돌아가기</button>
+                    <table class="table mb-16">
+                        <thead>
+                            <tr>
+                                <th>제목</th>
+                                <th>카테고리</th>
+                                <th>언어</th>
+                                <th>글쓴이</th>
+                                <th>작성일</th>
+                            </tr>
+                        </thead>
+                        <tbody id="postList"></tbody>
+                    </table>
+                    <div id="pagination" class="flex gap-8 mt-16 justify-center"></div>
+                    <button class="btn btn--primary" id="goToWriteBtn">글쓰기</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="write-board-page" class="page">
+            <h2 id="formTitle" class="mb-16">글쓰기</h2>
+            <form id="writeBoardForm" class="card p-16">
+                <input id="title" class="form-control mb-8" placeholder="제목" required>
+                <select id="category" class="form-control mb-8" required>
+                    <option value="" disabled selected>카테고리 선택</option>
+                    <option value="질문">질문</option>
+                    <option value="오타/오류 수정">오타/오류 수정</option>
+                    <option value="자유">자유</option>
+                </select>
+                <select id="language" class="form-control mb-8" required>
+                    <option value="" disabled selected>언어 선택</option>
+                    <option value="C">C</option>
+                    <option value="C++">C++</option>
+                    <option value="JAVA">JAVA</option>
+                    <option value="Python">Python</option>
+                </select>
+                <input id="author" class="form-control mb-8" placeholder="글쓴이" required>
+                <textarea id="content" class="form-control mb-16" placeholder="본문" rows="10" required></textarea>
+                <button type="submit" class="btn btn--primary btn--full-width">작성 완료</button>
+            </form>
+            <div class="mt-8">
+                <button class="btn btn--secondary" id="writeBackBtn">목록</button>
+            </div>
+        </div>
+
+        <div id="view-board-page" class="page">
+            <div class="card p-16">
+                <h2 id="viewTitle" class="mb-8">제목</h2>
+                <p><strong>카테고리:</strong> <span id="viewCategory"></span></p>
+                <p><strong>언어:</strong> <span id="viewLanguage"></span></p>
+                <p><strong>글쓴이:</strong> <span id="viewAuthor"></span></p>
+                <p><strong>작성일:</strong> <span id="viewDate"></span></p>
+                <hr class="my-16">
+                <p id="viewContent" class="mb-16"></p>
+                <div class="flex gap-8">
+                    <button id="editBtn" class="btn btn--primary">수정</button>
+                    <button id="deleteBtn" class="btn btn--outline">삭제</button>
+                    <button id="backBtn" class="btn btn--secondary">목록</button>
                 </div>
             </div>
         </div>

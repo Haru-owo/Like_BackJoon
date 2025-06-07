@@ -2,7 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const state = {
         currentPage: 'home',
         user: null,
-        theme: 'light'
+        theme: 'light',
+        boardType: 'question',
+        boardPage: 1,
+        editIndex: null,
+        editData: null,
+        viewIndex: null
     };
 
     const sampleData = {
@@ -86,12 +91,25 @@ document.addEventListener('DOMContentLoaded', () => {
     initCounterAnimations();
     initPasswordStrength();
     initScrollAnimations();
+    renderHomePage();
     
-    function initTheme() {
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        state.theme = savedTheme;
-        document.documentElement.setAttribute('data-theme', savedTheme);
+    function setTheme(theme) {
+        // theme 값이 잘못 들어오면 기본값 'light'로
+        if (theme !== 'light' && theme !== 'dark') theme = 'light';
+        state.theme = theme;
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
         updateThemeToggle();
+    }
+
+    function initTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        let theme = savedTheme;
+        if (!theme) {
+            // 시스템 테마 감지 활성화
+            theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        setTheme(theme);
     }
 
     function initThemeToggle() {
@@ -102,12 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function toggleTheme() {
-        state.theme = state.theme === 'light' ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', state.theme);
-        localStorage.setItem('theme', state.theme);
-        updateThemeToggle();
-        
-        // Add a subtle animation effect
+        const newTheme = state.theme === 'light' ? 'dark' : 'light';
+        setTheme(newTheme);
         document.body.style.transition = 'background-color 0.3s ease';
         setTimeout(() => {
             document.body.style.transition = '';
@@ -174,19 +188,88 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     targetPage.style.opacity = '1';
                 }, 10);
-                
                 window.scrollTo({
                     top: 0,
                     behavior: 'smooth'
                 });
-                
                 state.currentPage = pageName;
-                
                 if (pageName === 'mypage') {
                     initCounterAnimations();
                 }
+                if (pageName === 'home') {
+                    renderHomePage();
+                }
+                if (pageName === 'discussion') {
+                    renderBoard();
+                }
+                if (pageName === 'write-board') {
+                    renderWriteBoard();
+                }
+                if (pageName === 'view-board') {
+                    renderViewBoard();
+                }
             }, 150);
         }
+    }
+
+    function renderHomePage() {
+        // 연속학습, 문제해결, 티어
+        const streak = sampleData.user.streak;
+        const solved = sampleData.user.solvedProblems;
+        const total = sampleData.user.totalProblems;
+        const tier = sampleData.user.tier;
+        const points = sampleData.user.points;
+        // 연속학습
+        const streakEl = document.querySelector('.progress-card .progress-number');
+        if (streakEl) streakEl.textContent = streak + '일';
+        // 문제해결
+        const solvedEl = document.querySelectorAll('.progress-card .progress-number')[1];
+        if (solvedEl) solvedEl.innerHTML = `${solved}<span>/${total}</span>`;
+        // 티어
+        const tierEl = document.querySelector('.tier-badge');
+        if (tierEl) tierEl.textContent = tier;
+        const tierPointEl = document.querySelector('.tier-points');
+        if (tierPointEl) tierPointEl.textContent = points + ' pt';
+        // 추천문제
+        const recGrid = document.querySelector('.recommendations-grid');
+        if (recGrid) {
+            recGrid.innerHTML = sampleData.todayProblems.map(p => `
+                <div class="problem-card card hover-lift">
+                    <div class="card__body">
+                        <div class="problem-header">
+                            <span class="problem-id">${p.id}</span>
+                            <span class="difficulty-badge ${p.difficulty.toLowerCase()}">${p.difficulty}</span>
+                        </div>
+                        <h3>${p.title}</h3>
+                        <p class="problem-category">${p.category}</p>
+                        <div class="problem-meta">
+                            <span class="time-estimate">⏱️ ${p.estimatedTime}</span>
+                        </div>
+                        <button class="btn btn--primary btn--sm">도전하기</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        // 최근활동
+        const timeline = document.querySelector('.activity-timeline');
+        if (timeline) {
+            timeline.innerHTML = sampleData.recentActivity.map(a => `
+                <div class="timeline-item">
+                    <div class="timeline-marker ${a.type === 'solved' ? 'solved' : 'attempted'}"></div>
+                    <div class="timeline-content">
+                        <div class="activity-type">${a.type === 'solved' ? '문제 해결' : '시도'}</div>
+                        <h4>${a.problemId} ${a.title} <span class="difficulty-badge ${a.difficulty.toLowerCase()}">${a.difficulty}</span></h4>
+                        <div class="activity-time">${a.time}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        // 연속학습 progress bar
+        const streakBar = document.querySelector('.progress-card .progress-fill');
+        if (streakBar) streakBar.style.width = Math.min(100, Math.round(streak / 20 * 100)) + '%';
+        // 문제해결 progress bar
+        const solvedBar = document.querySelectorAll('.progress-card .progress-fill')[1];
+        if (solvedBar) solvedBar.style.width = Math.min(100, Math.round(solved / total * 100)) + '%';
     }
 
     function initCounterAnimations() {
@@ -616,11 +699,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(keyboardStyle);
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    
-    if (!prefersReducedMotion.matches) {
-        initScrollAnimations();
-    }
-
+    // 스크롤 애니메이션은 이미 initScrollAnimations에서 한 번만 호출
     prefersReducedMotion.addEventListener('change', () => {
         if (prefersReducedMotion.matches) {
             document.body.style.setProperty('--duration-fast', '0ms');
@@ -654,4 +733,249 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     console.log('로드 성공');
+
+    // =========================
+    // 게시판 기능 (board.js 통합)
+    // =========================
+    const defaultNotices = [
+      {
+        title: "📢 서버 점검 안내",
+        category: "",
+        language: "",
+        author: "운영팀",
+        content: "6월 15일(토) 02:00~04:00 서버 점검이 있습니다.",
+        date: "2025-06-01"
+      },
+      {
+        title: "📚 게시판 이용 규칙",
+        category: "",
+        language: "",
+        author: "관리자",
+        content: "욕설, 광고, 도배글은 삭제될 수 있습니다.",
+        date: "2025-06-03"
+      }
+    ];
+
+    function savePost(event) {
+      event.preventDefault();
+      const title = document.getElementById('title').value.trim();
+      const category = document.getElementById('category')?.value || '';
+      const language = document.getElementById('language')?.value || '';
+      const author = document.getElementById('author').value.trim();
+      const content = document.getElementById('content').value.trim();
+      const date = new Date().toISOString().split('T')[0];
+      const newPost = { title, category, language, author, content, date };
+
+      const type = state.boardType === 'notice' ? 'notice' : 'question';
+      const key = type === 'notice' ? 'notices' : 'posts';
+      const isEdit = !!state.editIndex;
+
+      let posts = JSON.parse(localStorage.getItem(key) || '[]');
+
+      if (isEdit) {
+        posts[state.editIndex] = newPost;
+        state.editIndex = null;
+        state.editData = null;
+      } else {
+        posts.push(newPost);
+      }
+
+      localStorage.setItem(key, JSON.stringify(posts));
+      navigateTo('discussion');
+      renderBoard();
+    }
+
+    function renderBoard() {
+      const list = document.getElementById('postList');
+      const title = document.getElementById('boardTitle');
+      const pagination = document.getElementById('pagination');
+      if (!list || !title || !pagination) return;
+
+      const type = state.boardType === 'notice' ? 'notice' : 'question';
+      const key = type === 'notice' ? 'notices' : 'posts';
+      title.textContent = type === 'notice' ? '공지 게시판' : '질문 게시판';
+
+      let posts = JSON.parse(localStorage.getItem(key) || '[]');
+      if (type === 'notice') {
+        const existingTitles = posts.map(p => p.title);
+        defaultNotices.forEach(notice => {
+          if (!existingTitles.includes(notice.title)) posts.push(notice);
+        });
+        localStorage.setItem(key, JSON.stringify(posts));
+      }
+
+      const postsPerPage = 10;
+      let currentPage = state.boardPage || 1;
+
+      function renderPosts() {
+        const start = (currentPage - 1) * postsPerPage;
+        const end = start + postsPerPage;
+        const pagePosts = posts.slice(start, end);
+
+        list.innerHTML = pagePosts.map((post, index) => `
+          <tr>
+            <td><a href="#" class="view-post-link" data-index="${start + index}">${post.title}</a></td>
+            <td>${post.category || '-'}</td>
+            <td>${post.language || '-'}</td>
+            <td>${post.author}</td>
+            <td>${post.date}</td>
+          </tr>
+        `).join('');
+        renderPagination();
+      }
+
+      function renderPagination() {
+        const totalPages = Math.ceil(posts.length / postsPerPage);
+        pagination.innerHTML = "";
+        for (let i = 1; i <= totalPages; i++) {
+          const btn = document.createElement("button");
+          btn.className = "btn btn--outline";
+          btn.textContent = i;
+          if (i === currentPage) btn.classList.add("btn--primary");
+          btn.addEventListener("click", () => {
+            currentPage = i;
+            state.boardPage = i;
+            renderPosts();
+          });
+          pagination.appendChild(btn);
+        }
+      }
+
+      renderPosts();
+
+      // 게시글 클릭 이벤트
+      list.querySelectorAll('.view-post-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          state.viewIndex = parseInt(link.dataset.index, 10);
+          navigateTo('view-board');
+          renderViewBoard();
+        });
+      });
+
+      // 버튼 스타일
+      const qBtn = document.getElementById("questionBtn");
+      const nBtn = document.getElementById("noticeBtn");
+      if (qBtn && nBtn) {
+        if (type === 'question') {
+          qBtn.classList.add("btn--primary");
+          nBtn.classList.add("btn--secondary");
+        } else {
+          nBtn.classList.add("btn--primary");
+          qBtn.classList.add("btn--secondary");
+        }
+      }
+    }
+
+    function renderViewBoard() {
+      const viewTitle = document.getElementById('viewTitle');
+      if (!viewTitle) return;
+      const type = state.boardType === 'notice' ? 'notice' : 'question';
+      const key = type === 'notice' ? 'notices' : 'posts';
+      const index = state.viewIndex;
+      const posts = JSON.parse(localStorage.getItem(key) || '[]');
+      const post = posts[index];
+      if (!post) {
+        document.getElementById('view-board-page').innerHTML = '<p>글을 찾을 수 없습니다.</p>';
+        return;
+      }
+      document.getElementById('viewTitle').textContent = post.title;
+      document.getElementById('viewAuthor').textContent = post.author;
+      document.getElementById('viewDate').textContent = post.date;
+      document.getElementById('viewContent').textContent = post.content;
+      const categoryEl = document.getElementById('viewCategory');
+      const languageEl = document.getElementById('viewLanguage');
+      if (type === 'notice') {
+        categoryEl?.parentElement?.style.setProperty('display', 'none');
+        languageEl?.parentElement?.style.setProperty('display', 'none');
+      } else {
+        categoryEl.textContent = post.category;
+        languageEl.textContent = post.language;
+        categoryEl?.parentElement?.style.removeProperty('display');
+        languageEl?.parentElement?.style.removeProperty('display');
+      }
+      document.getElementById('editBtn')?.addEventListener('click', () => {
+        state.editIndex = index;
+        state.editData = post;
+        navigateTo('write-board');
+        renderWriteBoard();
+      });
+      document.getElementById('deleteBtn')?.addEventListener('click', () => {
+        if (confirm('정말 삭제하시겠습니까?')) {
+          posts.splice(index, 1);
+          localStorage.setItem(key, JSON.stringify(posts));
+          navigateTo('discussion');
+          renderBoard();
+        }
+      });
+      document.getElementById('backBtn')?.addEventListener('click', () => {
+        navigateTo('discussion');
+        renderBoard();
+      });
+    }
+
+    function renderWriteBoard() {
+      const form = document.getElementById('writeBoardForm');
+      if (!form) return;
+      form.reset();
+      const type = state.boardType === 'notice' ? 'notice' : 'question';
+      const formTitle = document.getElementById('formTitle');
+      if (formTitle) {
+        formTitle.textContent = state.editIndex != null
+          ? (type === 'notice' ? '공지 수정' : '글 수정')
+          : (type === 'notice' ? '공지 작성' : '글쓰기');
+      }
+      if (type === 'notice') {
+        document.getElementById('category')?.style.setProperty('display', 'none');
+        document.getElementById('language')?.style.setProperty('display', 'none');
+      } else {
+        document.getElementById('category')?.style.removeProperty('display');
+        document.getElementById('language')?.style.removeProperty('display');
+      }
+      if (state.editIndex != null && state.editData) {
+        document.getElementById('title').value = state.editData.title;
+        document.getElementById('author').value = state.editData.author;
+        document.getElementById('content').value = state.editData.content;
+        if (type !== 'notice') {
+          document.getElementById('category').value = state.editData.category;
+          document.getElementById('language').value = state.editData.language;
+        }
+      }
+      form.onsubmit = savePost;
+      document.getElementById('writeBackBtn')?.addEventListener('click', () => {
+        navigateTo('discussion');
+        renderBoard();
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // 게시판 네비 버튼
+      document.getElementById('questionBtn')?.addEventListener('click', () => {
+        state.boardType = 'question';
+        state.boardPage = 1;
+        renderBoard();
+      });
+      document.getElementById('noticeBtn')?.addEventListener('click', () => {
+        state.boardType = 'notice';
+        state.boardPage = 1;
+        renderBoard();
+      });
+      document.getElementById('goToWriteBtn')?.addEventListener('click', () => {
+        state.editIndex = null;
+        state.editData = null;
+        navigateTo('write-board');
+        renderWriteBoard();
+      });
+      // 페이지 진입 시 게시판 초기화
+      if (document.getElementById('discussion-page')) {
+        if (!state.boardType) state.boardType = 'question';
+        renderBoard();
+      }
+      if (document.getElementById('write-board-page')) {
+        renderWriteBoard();
+      }
+      if (document.getElementById('view-board-page')) {
+        renderViewBoard();
+      }
+    });
 });

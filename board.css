@@ -1,3 +1,4 @@
+
 :root {
   /* Colors */
   --color-background: rgba(252, 252, 249, 1);
@@ -225,9 +226,6 @@ html {
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
   margin: 0;
   padding: 0;
 }
@@ -885,9 +883,6 @@ html {
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
   margin: 0;
   padding: 0;
   transition: background-color var(--duration-normal) var(--ease-standard);
@@ -2139,7 +2134,7 @@ a:hover {
 }
 
 .progress-fill.animated {
-   animation: progressFill 2s var(--ease-standard);
+  animation: progressFill 2s var(--ease-standard);
 }
 
 @keyframes progressFill {
@@ -2307,4 +2302,26 @@ a:hover {
   src: url('https://www.perplexity.ai/fonts/FKGroteskNeue.woff2')
     format('woff2');
   font-display: swap;
+}
+th, td {
+  padding: 16px 24px;
+  text-align: left;
+}
+th:first-child, td:first-child {
+  padding-left: 32px;
+}
+table {
+  table-layout: fixed;
+  width: 100%;
+}
+.button-group > button {
+  margin-right: 30px;
+}
+
+.button-group > button:last-child {
+  margin-right: 0;
+}
+.button-group {
+  margin-top: 32px;  /* 위 여백 */
+  margin-bottom: 32px; /* 아래 여백 */
 }
