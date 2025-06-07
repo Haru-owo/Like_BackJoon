@@ -77,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ]
     };
 
+
     initTheme();
     initNavigation();
     initSignupForm();
@@ -85,31 +86,19 @@ document.addEventListener('DOMContentLoaded', () => {
     initCounterAnimations();
     initPasswordStrength();
     initScrollAnimations();
-    initThemeToggle();
-    initTheme();
-
-    function initThemeToggle() {
-    const themeToggle = document.getElementById('theme-toggle');
-    if (!themeToggle) return;
-    themeToggle.addEventListener('click', () => {
-        const newTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        updateThemeToggle();
-        });
-    }
-
-    function updateThemeToggle() {
-    const themeToggle = document.getElementById('theme-toggle');
-    if (themeToggle) {
-        themeToggle.textContent = document.documentElement.getAttribute('data-theme') === 'light' ? '🌙' : '☀️';
-        }
-    }
     
     function initTheme() {
-    const saved = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', saved);
-    updateThemeToggle();
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        state.theme = savedTheme;
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeToggle();
+    }
+
+    function initThemeToggle() {
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', toggleTheme);
+        }
     }
 
     function toggleTheme() {
@@ -117,11 +106,19 @@ document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.setAttribute('data-theme', state.theme);
         localStorage.setItem('theme', state.theme);
         updateThemeToggle();
-
+        
+        // Add a subtle animation effect
         document.body.style.transition = 'background-color 0.3s ease';
         setTimeout(() => {
             document.body.style.transition = '';
         }, 300);
+    }
+
+    function updateThemeToggle() {
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.textContent = state.theme === 'light' ? '🌙' : '☀️';
+        }
     }
 
     function initNavigation() {
@@ -162,6 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const targetPage = document.getElementById(`${pageName}-page`);
         
         if (targetPage && currentPage !== targetPage) {
+            // Fade out current page
             if (currentPage) {
                 currentPage.style.opacity = '0';
                 setTimeout(() => {
@@ -655,5 +653,5 @@ document.addEventListener('DOMContentLoaded', () => {
         state
     };
 
-    console.log('🚀 코딩플랫폼이 성공적으로 로드되었습니다!');
+    console.log('로드 성공');
 });

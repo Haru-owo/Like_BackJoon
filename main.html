@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="main_style.css">
 </head>
 <body>
-    <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="container">
             <div class="navbar-content">
@@ -18,8 +17,8 @@
                     </div>
                 </div>
                 <ul class="navbar-nav">
-                    <li><a href="#" class="nav-link" data-page="home">메인</a></li>
-                    <li><a href="#" class="nav-link" data-page="problems">문제</a></li>
+                    <li><a href="#" data-page="home" class="nav-link active">홈</a></li>
+                    <li><a href="#" data-page="problems" class="nav-link">문제</a></li>
                     <li><a href="#" data-page="rankings" class="nav-link">랭킹</a></li>
                     <li><a href="#" data-page="discussion" class="nav-link">토론</a></li>
                     <li><a href="#" data-page="mypage" class="nav-link">마이페이지</a></li>
@@ -30,11 +29,8 @@
         </div>
     </nav>
 
-    <!-- Main Content Container -->
     <main class="main-content">
-        <!-- Home Page -->
         <div id="home-page" class="page active">
-            <!-- Hero Section -->
             <section class="hero">
                 <div class="hero-bg-pattern"></div>
                 <div class="container">
@@ -72,7 +68,6 @@
                 </div>
             </section>
 
-            <!-- Learning Progress Section -->
             <section class="progress-section">
                 <div class="container">
                     <div class="section-header">
@@ -115,7 +110,6 @@
                 </div>
             </section>
 
-            <!-- Today's Recommendations -->
             <section class="recommendations">
                 <div class="container">
                     <div class="section-header">
@@ -157,7 +151,6 @@
                 </div>
             </section>
 
-            <!-- Recent Activity -->
             <section class="activity-section">
                 <div class="container">
                     <div class="section-header">
@@ -193,7 +186,6 @@
                 </div>
             </section>
 
-            <!-- Features Section -->
             <section class="features">
                 <div class="container">
                     <div class="section-header">
@@ -234,7 +226,7 @@
             </section>
         </div>
 
-        <!-- Registration Page -->
+        <!-- Registry -->
         <div id="signup-page" class="page">
             <div class="signup-bg"></div>
             <div class="container">
@@ -298,7 +290,6 @@
             </div>
         </div>
 
-        <!-- My Page -->
         <div id="mypage-page" class="page">
             <div class="container">
                 <div class="mypage-container">
@@ -307,7 +298,6 @@
                         <p>학습 진행 상황과 성취를 확인하세요</p>
                     </div>
                     
-                    <!-- User Profile Section -->
                     <section class="profile-section">
                         <div class="profile-card card glass-effect">
                             <div class="card__body">
@@ -339,7 +329,6 @@
                         </div>
                     </section>
 
-                    <!-- Statistics Dashboard -->
                     <section class="dashboard-section">
                         <h2>나의 통계</h2>
                         <div class="dashboard-grid">
@@ -383,7 +372,6 @@
                         </div>
                     </section>
 
-                    <!-- Achievements -->
                     <section class="achievements-section">
                         <h2>성취</h2>
                         <div class="achievements-grid">
@@ -417,7 +405,6 @@
                         </div>
                     </section>
 
-                    <!-- Recent Activity -->
                     <section class="activity-section">
                         <h2>최근 활동</h2>
                         <div class="card glass-effect">
@@ -470,7 +457,6 @@
                         </div>
                     </section>
 
-                    <!-- Account Settings -->
                     <section class="settings-section">
                         <h2>계정 설정</h2>
                         <div class="card glass-effect">
@@ -505,69 +491,76 @@
             </div>
         </div>
 
-        <!-- 기존의 빈 페이지 섹션들을 다음과 같이 수정 -->
-        <section id="problems-page" class="page placeholder-page">
-        <div class="placeholder-content">
-            <div class="placeholder-icon">🧩</div>
-            <h1>문제</h1>
-            <p>이 페이지는 아직 구현 중입니다</p>
-            <div class="construction-progress">
-            <div class="progress-bar">
-                <div class="progress-fill animated" style="width: 65%;"></div>
+        <div id="problems-page" class="page placeholder-page">
+            <div class="container">
+                <div class="placeholder-content">
+                    <div class="placeholder-icon">🔧</div>
+                    <h1>문제</h1>
+                    <p>이 페이지는 아직 구현 중입니다</p>
+                    <div class="construction-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill animated" style="width: 60%"></div>
+                        </div>
+                        <span>60% 완료</span>
+                    </div>
+                    <button class="btn btn--primary" data-page="home">메인페이지로 돌아가기</button>
+                </div>
             </div>
-            <span>개발 진행률: 65%</span>
-            </div>
-            <button class="btn btn--primary" data-page="home">메인으로 돌아가기</button>
         </div>
-        </section>
 
-        <section id="ranking-page" class="page placeholder-page">
-        <div class="placeholder-content">
-            <div class="placeholder-icon">🏆</div>
-            <h1>랭킹</h1>
-            <p>이 페이지는 아직 구현 중입니다</p>
-            <div class="construction-progress">
-            <div class="progress-bar">
-                <div class="progress-fill animated" style="width: 45%;"></div>
+        <div id="rankings-page" class="page placeholder-page">
+            <div class="container">
+                <div class="placeholder-content">
+                    <div class="placeholder-icon">🏆</div>
+                    <h1>랭킹</h1>
+                    <p>이 페이지는 아직 구현 중입니다</p>
+                    <div class="construction-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill animated" style="width: 40%"></div>
+                        </div>
+                        <span>40% 완료</span>
+                    </div>
+                    <button class="btn btn--primary" data-page="home">메인페이지로 돌아가기</button>
+                </div>
             </div>
-            <span>개발 진행률: 45%</span>
-            </div>
-            <button class="btn btn--primary" data-page="home">메인으로 돌아가기</button>
         </div>
-        </section>
 
-        <section id="discussion-page" class="page placeholder-page">
-        <div class="placeholder-content">
-            <div class="placeholder-icon">💬</div>
-            <h1>토론</h1>
-            <p>이 페이지는 아직 구현 중입니다</p>
-            <div class="construction-progress">
-            <div class="progress-bar">
-                <div class="progress-fill animated" style="width: 25%;"></div>
+        <div id="discussion-page" class="page placeholder-page">
+            <div class="container">
+                <div class="placeholder-content">
+                    <div class="placeholder-icon">💬</div>
+                    <h1>토론</h1>
+                    <p>이 페이지는 아직 구현 중입니다</p>
+                    <div class="construction-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill animated" style="width: 20%"></div>
+                        </div>
+                        <span>20% 완료</span>
+                    </div>
+                    <button class="btn btn--primary" data-page="home">메인페이지로 돌아가기</button>
+                </div>
             </div>
-            <span>개발 진행률: 25%</span>
-            </div>
-            <button class="btn btn--primary" data-page="home">메인으로 돌아가기</button>
         </div>
-        </section>
 
-        <section id="login-page" class="page placeholder-page">
-        <div class="placeholder-content">
-            <div class="placeholder-icon">🔑</div>
-            <h1>로그인</h1>
-            <p>이 페이지는 아직 구현 중입니다</p>
-            <div class="construction-progress">
-            <div class="progress-bar">
-                <div class="progress-fill animated" style="width: 80%;"></div>
+        <div id="login-page" class="page placeholder-page">
+            <div class="container">
+                <div class="placeholder-content">
+                    <div class="placeholder-icon">🔐</div>
+                    <h1>로그인</h1>
+                    <p>이 페이지는 아직 구현 중입니다</p>
+                    <div class="construction-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill animated" style="width: 80%"></div>
+                        </div>
+                        <span>80% 완료</span>
+                    </div>
+                    <button class="btn btn--primary" data-page="home">메인페이지로 돌아가기</button>
+                </div>
             </div>
-            <span>개발 진행률: 80%</span>
-            </div>
-            <button class="btn btn--primary" data-page="home">메인으로 돌아가기</button>
         </div>
-        </section>
-
     </main>
 
-    <script src="main_app.js"></script>
+    <script src="main_app.js">
+    </script>
 </body>
 </html>
