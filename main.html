@@ -18,8 +18,8 @@
                     </div>
                 </div>
                 <ul class="navbar-nav">
-                    <li><a href="#" data-page="home" class="nav-link active">홈</a></li>
-                    <li><a href="#" data-page="problems" class="nav-link">문제</a></li>
+                    <li><a href="#" class="nav-link" data-page="home">메인</a></li>
+                    <li><a href="#" class="nav-link" data-page="problems">문제</a></li>
                     <li><a href="#" data-page="rankings" class="nav-link">랭킹</a></li>
                     <li><a href="#" data-page="discussion" class="nav-link">토론</a></li>
                     <li><a href="#" data-page="mypage" class="nav-link">마이페이지</a></li>
@@ -505,74 +505,67 @@
             </div>
         </div>
 
-        <!-- Placeholder Pages -->
-        <div id="problems-page" class="page placeholder-page">
-            <div class="container">
-                <div class="placeholder-content">
-                    <div class="placeholder-icon">🔧</div>
-                    <h1>문제</h1>
-                    <p>이 페이지는 아직 구현 중입니다</p>
-                    <div class="construction-progress">
-                        <div class="progress-bar">
-                            <div class="progress-fill animated" style="width: 60%"></div>
-                        </div>
-                        <span>60% 완료</span>
-                    </div>
-                    <button class="btn btn--primary" data-page="home">메인페이지로 돌아가기</button>
-                </div>
+        <!-- 기존의 빈 페이지 섹션들을 다음과 같이 수정 -->
+        <section id="problems-page" class="page placeholder-page">
+        <div class="placeholder-content">
+            <div class="placeholder-icon">🧩</div>
+            <h1>문제</h1>
+            <p>이 페이지는 아직 구현 중입니다</p>
+            <div class="construction-progress">
+            <div class="progress-bar">
+                <div class="progress-fill animated" style="width: 65%;"></div>
             </div>
+            <span>개발 진행률: 65%</span>
+            </div>
+            <button class="btn btn--primary" data-page="home">메인으로 돌아가기</button>
         </div>
+        </section>
 
-        <div id="rankings-page" class="page placeholder-page">
-            <div class="container">
-                <div class="placeholder-content">
-                    <div class="placeholder-icon">🏆</div>
-                    <h1>랭킹</h1>
-                    <p>이 페이지는 아직 구현 중입니다</p>
-                    <div class="construction-progress">
-                        <div class="progress-bar">
-                            <div class="progress-fill animated" style="width: 40%"></div>
-                        </div>
-                        <span>40% 완료</span>
-                    </div>
-                    <button class="btn btn--primary" data-page="home">메인페이지로 돌아가기</button>
-                </div>
+        <section id="ranking-page" class="page placeholder-page">
+        <div class="placeholder-content">
+            <div class="placeholder-icon">🏆</div>
+            <h1>랭킹</h1>
+            <p>이 페이지는 아직 구현 중입니다</p>
+            <div class="construction-progress">
+            <div class="progress-bar">
+                <div class="progress-fill animated" style="width: 45%;"></div>
             </div>
+            <span>개발 진행률: 45%</span>
+            </div>
+            <button class="btn btn--primary" data-page="home">메인으로 돌아가기</button>
         </div>
+        </section>
 
-        <div id="discussion-page" class="page placeholder-page">
-            <div class="container">
-                <div class="placeholder-content">
-                    <div class="placeholder-icon">💬</div>
-                    <h1>토론</h1>
-                    <p>이 페이지는 아직 구현 중입니다</p>
-                    <div class="construction-progress">
-                        <div class="progress-bar">
-                            <div class="progress-fill animated" style="width: 20%"></div>
-                        </div>
-                        <span>20% 완료</span>
-                    </div>
-                    <button class="btn btn--primary" data-page="home">메인페이지로 돌아가기</button>
-                </div>
+        <section id="discussion-page" class="page placeholder-page">
+        <div class="placeholder-content">
+            <div class="placeholder-icon">💬</div>
+            <h1>토론</h1>
+            <p>이 페이지는 아직 구현 중입니다</p>
+            <div class="construction-progress">
+            <div class="progress-bar">
+                <div class="progress-fill animated" style="width: 25%;"></div>
             </div>
+            <span>개발 진행률: 25%</span>
+            </div>
+            <button class="btn btn--primary" data-page="home">메인으로 돌아가기</button>
         </div>
+        </section>
 
-        <div id="login-page" class="page placeholder-page">
-            <div class="container">
-                <div class="placeholder-content">
-                    <div class="placeholder-icon">🔐</div>
-                    <h1>로그인</h1>
-                    <p>이 페이지는 아직 구현 중입니다</p>
-                    <div class="construction-progress">
-                        <div class="progress-bar">
-                            <div class="progress-fill animated" style="width: 80%"></div>
-                        </div>
-                        <span>80% 완료</span>
-                    </div>
-                    <button class="btn btn--primary" data-page="home">메인페이지로 돌아가기</button>
-                </div>
+        <section id="login-page" class="page placeholder-page">
+        <div class="placeholder-content">
+            <div class="placeholder-icon">🔑</div>
+            <h1>로그인</h1>
+            <p>이 페이지는 아직 구현 중입니다</p>
+            <div class="construction-progress">
+            <div class="progress-bar">
+                <div class="progress-fill animated" style="width: 80%;"></div>
             </div>
+            <span>개발 진행률: 80%</span>
+            </div>
+            <button class="btn btn--primary" data-page="home">메인으로 돌아가기</button>
         </div>
+        </section>
+
     </main>
 
     <script src="main_app.js"></script>

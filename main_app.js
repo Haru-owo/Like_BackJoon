@@ -1,14 +1,10 @@
-// Enhanced JavaScript for the Programming Learning Platform - 2025 Edition
-
 document.addEventListener('DOMContentLoaded', () => {
-    // Application state
     const state = {
         currentPage: 'home',
         user: null,
         theme: 'light'
     };
 
-    // Sample data from the provided JSON
     const sampleData = {
         user: {
             name: "김개발",
@@ -81,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ]
     };
 
-    // Initialize the application
     initTheme();
     initNavigation();
     initSignupForm();
@@ -90,20 +85,31 @@ document.addEventListener('DOMContentLoaded', () => {
     initCounterAnimations();
     initPasswordStrength();
     initScrollAnimations();
-    
-    // Theme management
-    function initTheme() {
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        state.theme = savedTheme;
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        updateThemeToggle();
-    }
+    initThemeToggle();
+    initTheme();
 
     function initThemeToggle() {
-        const themeToggle = document.getElementById('theme-toggle');
-        if (themeToggle) {
-            themeToggle.addEventListener('click', toggleTheme);
+    const themeToggle = document.getElementById('theme-toggle');
+    if (!themeToggle) return;
+    themeToggle.addEventListener('click', () => {
+        const newTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeToggle();
+        });
+    }
+
+    function updateThemeToggle() {
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.textContent = document.documentElement.getAttribute('data-theme') === 'light' ? '🌙' : '☀️';
         }
+    }
+    
+    function initTheme() {
+    const saved = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+    updateThemeToggle();
     }
 
     function toggleTheme() {
@@ -111,22 +117,13 @@ document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.setAttribute('data-theme', state.theme);
         localStorage.setItem('theme', state.theme);
         updateThemeToggle();
-        
-        // Add a subtle animation effect
+
         document.body.style.transition = 'background-color 0.3s ease';
         setTimeout(() => {
             document.body.style.transition = '';
         }, 300);
     }
 
-    function updateThemeToggle() {
-        const themeToggle = document.getElementById('theme-toggle');
-        if (themeToggle) {
-            themeToggle.textContent = state.theme === 'light' ? '🌙' : '☀️';
-        }
-    }
-
-    // Navigation system with enhanced transitions
     function initNavigation() {
         const navLinks = document.querySelectorAll('.nav-link');
         
@@ -139,7 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Button navigation
     function initButtonNavigation() {
         const navButtons = document.querySelectorAll('button[data-page]');
         
@@ -152,9 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Enhanced page navigation with smooth transitions
     function navigateTo(pageName) {
-        // Update active state in navigation
         const navLinks = document.querySelectorAll('.nav-link');
         navLinks.forEach(link => {
             if (link.getAttribute('data-page') === pageName) {
@@ -164,12 +158,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Get current and target pages
         const currentPage = document.querySelector('.page.active');
         const targetPage = document.getElementById(`${pageName}-page`);
         
         if (targetPage && currentPage !== targetPage) {
-            // Fade out current page
             if (currentPage) {
                 currentPage.style.opacity = '0';
                 setTimeout(() => {
@@ -178,7 +170,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 150);
             }
             
-            // Fade in target page
             setTimeout(() => {
                 targetPage.classList.add('active');
                 targetPage.style.opacity = '0';
@@ -193,7 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 state.currentPage = pageName;
                 
-                // Initialize page-specific features
                 if (pageName === 'mypage') {
                     initCounterAnimations();
                 }
@@ -201,15 +191,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Counter animations for statistics
     function initCounterAnimations() {
         const counters = document.querySelectorAll('.counter');
         
         counters.forEach(counter => {
             const target = parseInt(counter.getAttribute('data-target'));
             let current = 0;
-            const increment = target / 50; // Animation steps
-            const duration = 1500; // Total duration in ms
+            const increment = target / 50;
+            const duration = 1500;
             const stepTime = duration / 50;
             
             const updateCounter = () => {
@@ -223,7 +212,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             };
             
-            // Start animation when element is visible
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -237,14 +225,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Enhanced signup form validation with password strength
     function initSignupForm() {
         const signupForm = document.getElementById('signup-form');
         
         if (signupForm) {
             signupForm.addEventListener('submit', handleSignupSubmit);
             
-            // Live validation on input fields
             const formInputs = signupForm.querySelectorAll('.form-control');
             formInputs.forEach(input => {
                 input.addEventListener('input', () => {
@@ -258,7 +244,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     validateInput(input);
                 });
                 
-                // Add focus animations
                 input.addEventListener('focus', () => {
                     input.parentElement.classList.add('focused');
                 });
@@ -270,7 +255,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Password strength indicator
     function initPasswordStrength() {
         const passwordInput = document.getElementById('password');
         if (passwordInput) {
@@ -289,28 +273,23 @@ document.addEventListener('DOMContentLoaded', () => {
         let strength = 0;
         let strengthLabel = '';
         
-        // Calculate password strength
         if (password.length >= 8) strength += 25;
         if (/[a-z]/.test(password)) strength += 25;
         if (/[A-Z]/.test(password)) strength += 25;
         if (/[0-9]/.test(password)) strength += 25;
         if (/[^a-zA-Z0-9]/.test(password)) strength += 25;
         
-        // Cap at 100
         strength = Math.min(strength, 100);
         
-        // Determine label
         if (strength === 0) strengthLabel = '비밀번호를 입력하세요';
         else if (strength < 50) strengthLabel = '약함';
         else if (strength < 75) strengthLabel = '보통';
         else if (strength < 100) strengthLabel = '강함';
         else strengthLabel = '매우 강함';
         
-        // Update UI
         strengthBar.style.width = `${strength}%`;
         strengthText.textContent = `비밀번호 강도: ${strengthLabel}`;
         
-        // Update color based on strength
         if (strength < 50) {
             strengthBar.style.background = 'var(--color-error)';
         } else if (strength < 75) {
@@ -320,23 +299,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Form submission with enhanced UX
     function handleSignupSubmit(e) {
         e.preventDefault();
         
-        // Reset error messages
         clearErrorMessages();
         
-        // Get form values
         const username = document.getElementById('username').value.trim();
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value;
         const confirmPassword = document.getElementById('confirm-password').value;
         
-        // Validate form
         let isValid = true;
         
-        // Username validation
         if (username === '') {
             showError('username', '사용자명을 입력해주세요.');
             isValid = false;
@@ -345,7 +319,6 @@ document.addEventListener('DOMContentLoaded', () => {
             isValid = false;
         }
         
-        // Email validation
         if (email === '') {
             showError('email', '이메일을 입력해주세요.');
             isValid = false;
@@ -354,7 +327,6 @@ document.addEventListener('DOMContentLoaded', () => {
             isValid = false;
         }
         
-        // Password validation
         if (password === '') {
             showError('password', '비밀번호를 입력해주세요.');
             isValid = false;
@@ -363,7 +335,6 @@ document.addEventListener('DOMContentLoaded', () => {
             isValid = false;
         }
         
-        // Confirm password validation
         if (confirmPassword === '') {
             showError('confirm-password', '비밀번호 확인을 입력해주세요.');
             isValid = false;
@@ -372,22 +343,17 @@ document.addEventListener('DOMContentLoaded', () => {
             isValid = false;
         }
         
-        // Form submission with enhanced loading state
         if (isValid) {
             const submitButton = e.target.querySelector('button[type="submit"]');
             const originalText = submitButton.innerHTML;
             
-            // Enhanced loading state
             submitButton.classList.add('loading');
             submitButton.innerHTML = '<span>처리 중...</span>';
             submitButton.disabled = true;
             
-            // Simulate API call with realistic delay
             setTimeout(() => {
-                // Reset form
                 e.target.reset();
                 
-                // Show enhanced success message
                 const successMessage = document.getElementById('success-message');
                 successMessage.classList.remove('hidden');
                 successMessage.style.opacity = '0';
@@ -399,21 +365,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     successMessage.style.transform = 'translateY(0)';
                 }, 10);
                 
-                // Reset button
                 submitButton.classList.remove('loading');
                 submitButton.innerHTML = originalText;
                 submitButton.disabled = false;
                 
-                // Clear password strength
                 updatePasswordStrength('');
                 
-                // Set user state
                 state.user = {
                     username: username,
                     email: email
                 };
                 
-                // Automatically navigate to home after successful signup
                 setTimeout(() => {
                     navigateTo('home');
                     setTimeout(() => {
@@ -427,7 +389,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Input validation helper with enhanced visual feedback
     function validateInput(input) {
         const id = input.id;
         const value = input.value.trim();
@@ -470,7 +431,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     clearError(id);
                     setInputState(input, 'success');
                     
-                    // Check if confirm password needs validation
                     const confirmPassword = document.getElementById('confirm-password');
                     if (confirmPassword && confirmPassword.value !== '') {
                         validateInput(confirmPassword);
@@ -494,7 +454,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Scroll animations for elements
     function initScrollAnimations() {
         const animateElements = document.querySelectorAll('.card, .feature-card, .progress-card');
         
@@ -518,7 +477,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Smooth scrolling for anchor links
     document.addEventListener('click', (e) => {
         if (e.target.matches('a[href^="#"]')) {
             e.preventDefault();
@@ -534,7 +492,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Add ripple effect to buttons
     document.addEventListener('click', (e) => {
         if (e.target.matches('.btn') || e.target.closest('.btn')) {
             const button = e.target.matches('.btn') ? e.target : e.target.closest('.btn');
@@ -554,7 +511,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ripple.style.top = y + 'px';
         ripple.classList.add('ripple');
         
-        // Add ripple styles
         ripple.style.position = 'absolute';
         ripple.style.borderRadius = '50%';
         ripple.style.background = 'rgba(255, 255, 255, 0.3)';
@@ -571,7 +527,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 600);
     }
 
-    // Add CSS for ripple animation
     const style = document.createElement('style');
     style.textContent = `
         @keyframes ripple {
@@ -583,17 +538,12 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.head.appendChild(style);
 
-    // Auto-update time stamps (for demo purposes)
     function updateTimeStamps() {
         const timeElements = document.querySelectorAll('.activity-time');
-        // This would normally fetch real-time data
-        // For demo, we'll just keep the static times
     }
 
-    // Initialize auto-update
-    setInterval(updateTimeStamps, 60000); // Update every minute
+    setInterval(updateTimeStamps, 60000);
     
-    // Helper functions
     function showError(id, message) {
         const errorElement = document.getElementById(`${id}-error`);
         if (errorElement) {
@@ -644,25 +594,20 @@ document.addEventListener('DOMContentLoaded', () => {
         return emailRegex.test(email);
     }
 
-    // Keyboard navigation support
     document.addEventListener('keydown', (e) => {
-        // Escape key to close modals or return to home
         if (e.key === 'Escape') {
             navigateTo('home');
         }
         
-        // Tab navigation enhancement
         if (e.key === 'Tab') {
             document.body.classList.add('keyboard-navigation');
         }
     });
 
-    // Mouse usage detection
     document.addEventListener('mousedown', () => {
         document.body.classList.remove('keyboard-navigation');
     });
 
-    // Add keyboard navigation styles
     const keyboardStyle = document.createElement('style');
     keyboardStyle.textContent = `
         .keyboard-navigation *:focus {
@@ -672,41 +617,31 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.head.appendChild(keyboardStyle);
 
-    // Performance optimization: Lazy load non-critical animations
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     
     if (!prefersReducedMotion.matches) {
-        // Only add animations if user hasn't requested reduced motion
         initScrollAnimations();
     }
 
-    // Handle reduced motion preference changes
     prefersReducedMotion.addEventListener('change', () => {
         if (prefersReducedMotion.matches) {
-            // Disable animations
             document.body.style.setProperty('--duration-fast', '0ms');
             document.body.style.setProperty('--duration-normal', '0ms');
             document.body.style.setProperty('--duration-slow', '0ms');
         } else {
-            // Re-enable animations
             document.body.style.removeProperty('--duration-fast');
             document.body.style.removeProperty('--duration-normal');
             document.body.style.removeProperty('--duration-slow');
         }
     });
 
-    // Error handling for the entire application
     window.addEventListener('error', (e) => {
         console.error('Application error:', e.error);
-        // In a real application, you might want to send this to a logging service
     });
 
-    // Initialize progressive web app features
     if ('serviceWorker' in navigator) {
-        // Service worker registration would go here for offline functionality
     }
 
-    // Add smooth transitions between pages
     const pageTransitions = {
         'home': { from: 'bottom', duration: 400 },
         'signup': { from: 'right', duration: 300 },
@@ -714,7 +649,6 @@ document.addEventListener('DOMContentLoaded', () => {
         'default': { from: 'top', duration: 250 }
     };
 
-    // Export functions for potential external use
     window.CodingPlatform = {
         navigateTo,
         toggleTheme,
