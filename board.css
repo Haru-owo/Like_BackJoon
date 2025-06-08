@@ -473,83 +473,153 @@ select.form-control {
   border-bottom: 1px solid var(--color-card-border-inner);
 }
 
-/* Status indicators - simplified with CSS variables */
-.status {
-  display: inline-flex;
-  align-items: center;
-  padding: var(--space-6) var(--space-12);
-  border-radius: var(--radius-full);
-  font-weight: var(--font-weight-medium);
-  font-size: var(--font-size-sm);
+/* 문제 풀이(상세) 카드 디자인 개선 */
+#problem-detail-page .card {
+  background: var(--glass-bg);
+  border-radius: var(--radius-xl);
+  border: 1.5px solid var(--glass-border);
+  box-shadow: var(--shadow-glass);
+  margin-bottom: var(--space-32);
 }
-
-.status--success {
-  background-color: rgba(
-    var(--color-success-rgb, 33, 128, 141),
-    var(--status-bg-opacity)
-  );
+#problem-detail-page .problem-desc-text {
+  font-size: 1.13rem;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-16) var(--space-20);
+  margin-top: var(--space-16);
+  margin-bottom: var(--space-8);
+  min-height: 120px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+#problem-detail-page .problem-desc-text .status.status--warning {
+  display: block;
+  margin: var(--space-16) 0 0 0;
+  font-size: 1.05rem;
+  background: var(--color-warning);
+  color: #fff;
+  border-radius: var(--radius-base);
+  padding: var(--space-12) var(--space-16);
+  box-shadow: 0 2px 8px rgba(168,75,47,0.08);
+  font-weight: 500;
+}
+#problem-detail-page .code-area {
+  font-family: var(--font-family-mono);
+  font-size: 1.13rem;
+  background: #f7f7f7;
+  color: #222;
+  border-radius: var(--radius-lg);
+  min-height: 220px;
+  padding: var(--space-16);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  border: 1.5px solid var(--color-border);
+  transition: border-color 0.2s;
+}
+[data-color-scheme="dark"] #problem-detail-page .code-area {
+  background: #23272e;
+  color: #e6e6e6;
+  border: 1.5px solid var(--color-border-secondary);
+}
+#problem-detail-page .form-label {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--color-primary);
+  margin-bottom: var(--space-8);
+}
+#problem-detail-page .form-group {
+  margin-bottom: var(--space-20);
+}
+#problem-detail-page .status.status--info {
+  background: linear-gradient(90deg, #e3f6f9 0%, #f7f7f7 100%);
+  color: var(--color-primary);
+  border: none;
+  font-weight: 500;
+  font-size: 1.08rem;
+  margin-bottom: var(--space-12);
+}
+#problem-detail-page .status.status--success,
+#problem-detail-page .status.status--error,
+#problem-detail-page .status.status--warning {
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+#problem-detail-page .problem-table {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  margin-bottom: 0;
+}
+#problem-detail-page .problem-table th {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+#problem-detail-page .problem-table td {
+  font-size: 1.03rem;
+}
+#problem-detail-page .problem-table tr:hover {
+  background: var(--color-secondary-hover);
+}
+#problem-detail-page .card h3 {
+  color: var(--color-primary);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: var(--space-16);
+}
+#problem-detail-page .card form {
+  margin-bottom: var(--space-8);
+}
+#problem-detail-page .btn--primary.btn--full-width {
+  margin-top: var(--space-16);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+#problem-detail-page .status.status--success {
+  background: linear-gradient(90deg, #e3f9e7 0%, #f7f7f7 100%);
   color: var(--color-success);
-  border: 1px solid
-    rgba(var(--color-success-rgb, 33, 128, 141), var(--status-border-opacity));
+  border: none;
+  font-size: 1.13rem;
+  font-weight: 600;
 }
-
-.status--error {
-  background-color: rgba(
-    var(--color-error-rgb, 192, 21, 47),
-    var(--status-bg-opacity)
-  );
+#problem-detail-page .status.status--error {
+  background: linear-gradient(90deg, #f9e3e3 0%, #f7f7f7 100%);
   color: var(--color-error);
-  border: 1px solid
-    rgba(var(--color-error-rgb, 192, 21, 47), var(--status-border-opacity));
+  border: none;
 }
-
-.status--warning {
-  background-color: rgba(
-    var(--color-warning-rgb, 168, 75, 47),
-    var(--status-bg-opacity)
-  );
+#problem-detail-page .status.status--warning {
+  background: linear-gradient(90deg, #f9f3e3 0%, #f7f7f7 100%);
   color: var(--color-warning);
-  border: 1px solid
-    rgba(var(--color-warning-rgb, 168, 75, 47), var(--status-border-opacity));
+  border: none;
 }
-
-.status--info {
-  background-color: rgba(
-    var(--color-info-rgb, 98, 108, 113),
-    var(--status-bg-opacity)
-  );
-  color: var(--color-info);
-  border: 1px solid
-    rgba(var(--color-info-rgb, 98, 108, 113), var(--status-border-opacity));
+#problem-detail-page .status.status--info {
+  background: linear-gradient(90deg, #e3f6f9 0%, #f7f7f7 100%);
+  color: var(--color-primary);
+  border: none;
 }
-
-/* Container layout */
-.container {
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-  padding-right: var(--space-16);
-  padding-left: var(--space-16);
+#problem-detail-page .mb-24 {
+  margin-bottom: var(--space-24);
 }
-
-@media (min-width: 640px) {
-  .container {
-    max-width: var(--container-sm);
+#problem-detail-page .mb-16 {
+  margin-bottom: var(--space-16);
+}
+#problem-detail-page .mb-8 {
+  margin-bottom: var(--space-8);
+}
+#problem-detail-page .mt-16 {
+  margin-top: var(--space-16);
+}
+@media (max-width: 700px) {
+  #problem-detail-page .card {
+    padding: var(--space-12);
   }
-}
-@media (min-width: 768px) {
-  .container {
-    max-width: var(--container-md);
+  #problem-detail-page .problem-desc-text {
+    padding: var(--space-8) var(--space-8);
   }
-}
-@media (min-width: 1024px) {
-  .container {
-    max-width: var(--container-lg);
-  }
-}
-@media (min-width: 1280px) {
-  .container {
-    max-width: var(--container-xl);
+  #problem-detail-page .code-area {
+    font-size: 1rem;
+    padding: var(--space-8);
   }
 }
 

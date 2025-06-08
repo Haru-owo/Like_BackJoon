@@ -718,47 +718,64 @@
     </div>
   <!-- 문제 상세/제출 SPA 영역 -->
   <div id="problem-detail-page" class="page">
-    <div class="container py-16">
-      <div class="flex gap-8 mb-16" id="problem-detail-tabs">
-        <button class="btn tab-btn btn--primary" data-tab="desc">문제</button>
-        <button class="btn tab-btn btn--outline" data-tab="submit">제출</button>
-        <button class="btn tab-btn btn--outline" data-tab="status">채점 현황</button>
+  <div class="container py-16">
+    <div class="flex gap-8 mb-16" id="problem-detail-tabs">
+      <button class="btn tab-btn btn--primary" data-tab="desc">문제</button>
+      <button class="btn tab-btn btn--outline" data-tab="submit">제출</button>
+      <button class="btn tab-btn btn--outline" data-tab="status">채점 현황</button>
+    </div>
+    <div id="problem-desc-section">
+      <div class="card p-24 mb-24">
+        <h2 id="problem-title" class="mb-8">문제 제목</h2>
+        <div id="problem-info" class="mb-16 status status--info" style="font-size:1.1rem;">난이도/번호 등</div>
+        <div id="problem-description" class="problem-desc-text" style="min-height:120px;">문제 설명 <span class="status status--warning" style="margin-left:16px;">임시 정보: 문제 설명 준비중입니다. 실제 서비스에서는 상세 설명, 입력/출력 예시, 제한 사항 등이 표시됩니다.</span></div>
       </div>
-      <div id="problem-desc-section">
-        <h2 id="problem-title">문제 제목</h2>
-        <div id="problem-info" class="mb-8">난이도/번호 등</div>
-        <div id="problem-description">문제 설명</div>
-      </div>
-      <div id="problem-submit-section" style="display:none;">
-        <form id="submit-form" class="card p-16" style="max-width:700px;margin:0 auto;">
-          <div class="form-group">
+    </div>
+    <div id="problem-submit-section" style="display:none;">
+      <div class="card p-24 mb-24" style="max-width:800px;margin:0 auto;">
+        <h3 class="mb-16">코드 제출</h3>
+        <form id="submit-form">
+          <div class="form-group mb-16">
             <label for="submit-language" class="form-label">언어 선택</label>
             <select id="submit-language" class="form-control" required>
-              <option value="cpp">C++</option>
-              <option value="java">Java</option>
-              <option value="python">Python</option>
+                <option value="C">C</option>
+                <option value="cpp">C++</option>
+                <option value="java">Java</option>
+                <option value="python">Python</option>
             </select>
           </div>
-          <div class="form-group flex items-center gap-8">
+          <div class="form-group flex items-center gap-8 mb-16">
             <input type="checkbox" id="public-source" style="width:auto;">
             <label for="public-source" style="margin:0;">소스코드 공개</label>
           </div>
-          <div class="form-group">
+          <div class="form-group mb-16">
             <label for="source-code" class="form-label">소스 코드</label>
-            <textarea id="source-code" class="form-control" rows="12" required placeholder="여기에 코드를 입력하세요"></textarea>
+            <textarea id="source-code" class="form-control code-area" rows="14" required placeholder="여기에 코드를 입력하세요" style="font-family:var(--font-family-mono);font-size:1.1rem;background:var(--color-surface);min-height:220px;"></textarea>
           </div>
           <button type="submit" class="btn btn--primary btn--full-width">제출</button>
         </form>
         <div id="submit-success-msg" class="status status--success" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;font-size:1.3rem;">제출되었습니다</div>
       </div>
-      <div id="problem-status-section" style="display:none;">
-        <div class="card p-16">채점 현황 구현 예정</div>
-      </div>
-      <div class="mt-16">
-        <button class="btn btn--secondary" id="problem-back-btn">목록</button>
+    </div>
+    <div id="problem-status-section" style="display:none;">
+      <div class="card p-24 mb-24" style="max-width:800px;margin:0 auto;">
+        <h3 class="mb-16">제출/채점 현황</h3>
+        <div class="status status--info mb-16">임시: 제출/채점 현황은 추후 구현됩니다.</div>
+        <table class="problem-table" style="margin-bottom:0;">
+          <thead><tr><th>제출 번호</th><th>언어</th><th>결과</th><th>제출 시각</th></tr></thead>
+          <tbody>
+            <tr><td>12345</td><td>C++</td><td><span class="status status--success">맞았습니다</span></td><td>2025-06-15 12:34</td></tr>
+            <tr><td>12344</td><td>Python</td><td><span class="status status--error">틀렸습니다</span></td><td>2025-06-15 12:30</td></tr>
+            <tr><td>12343</td><td>Java</td><td><span class="status status--warning">채점중</span></td><td>2025-06-15 12:25</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
+    <div class="mt-16 flex justify-center">
+      <button class="btn btn--secondary" id="problem-back-btn">목록</button>
+    </div>
   </div>
+</div>
   <script src="board.js"></script>
 </body>
 </html>
