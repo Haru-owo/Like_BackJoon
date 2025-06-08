@@ -17,19 +17,19 @@ const defaultNotices = [
   }
 ];
 
-// SPA 상태 관리 변수
-let currentBoardType = 'question'; // 'question' or 'notice'
-let currentViewIndex = null; // 글 보기 인덱스
+// 페이지 넘어갈 때 이 변수들로 상태관리 하는거임
+let currentBoardType = 'question';
+let currentViewIndex = null;
 let isEditMode = false;
 
-// 페이지 전환 함수
+// 페이지 아이디로 페이지 전환 (리디렉션 아님)
 function showPage(pageId) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const page = document.getElementById(pageId);
   if (page) page.classList.add('active');
 }
 
-// 글쓰기 폼 초기화 및 표시
+// 글 쓰기
 function openWritePage(edit = false, post = null, index = null) {
   showPage('write-board-page');
   isEditMode = edit;
@@ -37,7 +37,7 @@ function openWritePage(edit = false, post = null, index = null) {
   document.getElementById('formTitle').textContent = edit
     ? (currentBoardType === 'notice' ? '공지 수정' : '글 수정')
     : (currentBoardType === 'notice' ? '공지 작성' : '글쓰기');
-  // 폼 초기화
+  // 화면 초기화 (글 수정 탭에서 기존 글 데이터 불러오는거 구현 못했음)
   document.getElementById('title').value = post ? post.title : '';
   document.getElementById('author').value = post ? post.author : '';
   document.getElementById('content').value = post ? post.content : '';
@@ -52,7 +52,7 @@ function openWritePage(edit = false, post = null, index = null) {
   }
 }
 
-// 글 보기 페이지 표시
+// 글 보기 (이 부분 CSS 그대로 옮겨와서 중복된거 무조건 있을거임)
 function openViewPage(index) {
   showPage('view-board-page');
   currentViewIndex = index;
@@ -80,7 +80,7 @@ function openViewPage(index) {
   }
 }
 
-// 글 저장
+// 글 저장 (로컬로 구현함)
 function savePost(event) {
   event.preventDefault();
   const title = document.getElementById('title').value.trim();
@@ -104,7 +104,7 @@ function savePost(event) {
   showPage('discussion-page');
 }
 
-// 글 삭제
+// 글 삭제 (기능 동작 안됨 ㅅㅂ거)
 function deletePost() {
   const key = currentBoardType === 'notice' ? 'notices' : 'posts';
   let posts = JSON.parse(localStorage.getItem(key) || '[]');
@@ -117,28 +117,28 @@ function deletePost() {
   }
 }
 
-// 글 목록으로 돌아가기
+// 목록으로 돌아가기 (글)
 function backToList() {
   currentViewIndex = null;
   renderBoardList(currentBoardType);
   showPage('discussion-page');
 }
 
-// 글쓰기 버튼 이벤트
+// 글쓰기 버튼
 if (document.getElementById('goToWriteBtn')) {
   document.getElementById('goToWriteBtn').addEventListener('click', () => {
     openWritePage(false);
   });
 }
-// 글쓰기 폼 제출 이벤트
+// 글 제출 이벤트
 if (document.getElementById('writeForm')) {
   document.getElementById('writeForm').addEventListener('submit', savePost);
 }
-// 글쓰기 폼 목록 버튼
+// 글 목록 버튼 (글쓰기 탭 내에서 동작)
 if (document.getElementById('writeBackBtn')) {
   document.getElementById('writeBackBtn').addEventListener('click', backToList);
 }
-// 글 보기 페이지 버튼들
+// 글 보기 페이지 버튼 모음
 if (document.getElementById('editBtn')) {
   document.getElementById('editBtn').addEventListener('click', () => {
     const key = currentBoardType === 'notice' ? 'notices' : 'posts';
@@ -154,7 +154,7 @@ if (document.getElementById('backBtn')) {
   document.getElementById('backBtn').addEventListener('click', backToList);
 }
 
-// 게시글 목록 렌더링 함수 (SPA)
+// 게시글 목록 렌더링 (리디렉션 없이 구현)
 function renderBoardList(type) {
   currentBoardType = type;
   showPage('discussion-page');
@@ -187,7 +187,7 @@ function renderBoardList(type) {
         <td>${post.date}</td>
       </tr>
     `).join('');
-    // 글 제목 클릭 이벤트 (SPA)
+    // 글 제목 클릭했을 때 이벤트 (리디렉션 없이 동작하도록 바꿈)
     document.querySelectorAll('.post-link').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -212,7 +212,6 @@ function renderBoardList(type) {
     }
   }
   renderPosts();
-  // 탭 버튼 스타일
   const qBtn = document.getElementById("questionBtn");
   const nBtn = document.getElementById("noticeBtn");
   if (qBtn && nBtn) {
@@ -230,7 +229,6 @@ function renderBoardList(type) {
   }
 }
 
-// 탭 버튼 이벤트
 if (document.getElementById('questionBtn')) {
   document.getElementById('questionBtn').addEventListener('click', (e) => {
     e.preventDefault();
@@ -244,7 +242,8 @@ if (document.getElementById('noticeBtn')) {
   });
 }
 
-// 메뉴바에서 게시판 탭 클릭 시에만 게시판 목록 렌더링
+// 메뉴바에서 게시판 탭 클릭 시에만 게시판 목록을 렌더링하도록 했음
+// 이거 없이 동작하면 탭 이동 계속 했을 때 페이지 망가짐
 const discussionNav = document.querySelector('.nav-link[data-page="discussion"]');
 if (discussionNav) {
   discussionNav.addEventListener('click', (e) => {
@@ -256,7 +255,7 @@ if (discussionNav) {
   });
 }
 
-// SPA 네비게이션: 모든 [data-page] 속성 요소에 대해 페이지 전환 처리
+// 페이지 전환 (리디렉션 없이 전환되는걸 핵심 기능으로 담음)
 const pageLinks = document.querySelectorAll('[data-page]');
 pageLinks.forEach(link => {
   link.addEventListener('click', function(e) {
@@ -266,18 +265,18 @@ pageLinks.forEach(link => {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const target = document.getElementById(pageId);
     if (target) target.classList.add('active');
-    // 네비게이션 active 처리 (nav-link만)
+    // nav-link만 네비게이션 active 처리 (완료 -> 페이지 넘기면 작동 안됨 -> 수정 완료)
     document.querySelectorAll('.nav-link[data-page]').forEach(l => l.classList.remove('active'));
     const navLink = document.querySelector('.nav-link[data-page="' + pageName + '"]');
     if (navLink) navLink.classList.add('active');
-    // 게시판 탭이면 게시판 목록 렌더링
+    // 게시판 탭이면 게시판 목록 렌더링 (이거 굳이 필요한가? -> 없이 돌려보니까 렌더 안따라오네. 이거 필요함)
     if (pageId === 'discussion-page') {
       renderBoardList('question');
     }
   });
 });
 
-// ================= 회원가입 폼 기능(main_app.js에서 통합) =================
+// ================= 회원가입 폼 기능(main_app에서 통합함) =================
 document.addEventListener('DOMContentLoaded', function() {
   const signupForm = document.getElementById('signup-form');
   if (!signupForm) return;
@@ -363,7 +362,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 2500);
   });
 
-  // 입력 포커스 효과
+  // 입력 효과 (별로 중요하지 않은 부분)
   document.querySelectorAll('.form-control').forEach(input => {
     input.addEventListener('focus', function() {
       input.parentElement.classList.add('focused');
@@ -373,10 +372,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
-// ================= 회원가입 폼 기능 끝 =================
 
-// ================= 문제 리스트(탭/검색/단계별) 기능(list.js에서 복사) =================
-// 문제 분류 데이터
+// ================= 문제 리스트(탭/검색/단계별) 기능(list에서 통합함) =================
+// 문제 분류 데이터 하드코딩 (이거 Json으로 바꿔봐도 될 것 같음 -> *포기*)
 const stepProblems = {
   math: [
     { id: "0101", title: "A+B", level: "Bronze 5" },
@@ -423,7 +421,7 @@ function showStepDetail(category) {
     <thead><tr><th>📌문제</th><th>문제제목</th><th>정보</th></tr></thead>
     <tbody>${rows}</tbody>`;
 
-  // SPA 문제 클릭 이벤트 즉시 연결
+  // 문제 클릭 이벤트 연결 수정함. (정상작동 체크 완료)
   document.querySelectorAll('.spa-problem-row').forEach(row => {
     row.addEventListener('click', function(e) {
       e.preventDefault();
@@ -434,9 +432,9 @@ function showStepDetail(category) {
   });
 }
 
-// 문제 리스트(전체/난이도순) SPA 클릭 이벤트
+// 문제 리스트(전체/난이도순) 클릭 이벤트 (리디렉션 없음)
 function addProblemListSPAEvents() {
-  // 전체/난이도순 문제 tr
+  // 전체/난이도순 문제 tr 구현
   document.querySelectorAll('.tab-content#all .problem-table tbody tr, .tab-content#category1 .problem-table tbody tr').forEach(row => {
     row.addEventListener('click', function(e) {
       e.preventDefault();
@@ -448,7 +446,7 @@ function addProblemListSPAEvents() {
       openProblemDetailByTitle(title, id, info);
     });
   });
-  // 단계별 주제 tr (step)
+  // 주제
   document.querySelectorAll('.tab-content#step .problem-table tbody tr[data-category]').forEach(row => {
     row.addEventListener('click', function(e) {
       e.preventDefault();
@@ -456,7 +454,7 @@ function addProblemListSPAEvents() {
       if (cat) showStepDetail(cat);
     });
   });
-  // 단계별 하위 문제 tr
+  // 하위 문제
   document.querySelectorAll('.spa-problem-row').forEach(row => {
     row.addEventListener('click', function(e) {
       e.preventDefault();
@@ -467,27 +465,26 @@ function addProblemListSPAEvents() {
   });
 }
 
-// 문제 상세 SPA 열기 (단계별)
+// 단계별 문제 상세 (얘는 js에서 처리중인 데이터라 따로 분리했음)
 function openProblemDetail(category, idx) {
   const problem = stepProblems[category][idx];
   if (!problem) return;
   showPage('problem-detail-page');
   setProblemDetail(problem.title, problem.id, problem.level, '문제 설명 준비중');
 }
-// 문제 상세 SPA 열기 (전체/난이도순)
+// 전체랑 난이도순 문제 상세 (이건 리스트 하드코딩이라 걍 합쳐도 됨)
 function openProblemDetailByTitle(title, id, info) {
   showPage('problem-detail-page');
   setProblemDetail(title, id, info, '문제 설명 준비중');
 }
-// 문제 상세 정보 세팅
+// 문제 상세 정보 세팅 (동작 안함 -> 수정 완료)
 function setProblemDetail(title, id, info, desc) {
   document.getElementById('problem-title').textContent = title;
   document.getElementById('problem-info').textContent = `${info} / ${id}`;
   document.getElementById('problem-description').textContent = desc;
-  // 탭 초기화
   showProblemTab('desc');
 }
-// 탭 전환
+// 탭 전환 수정 완료
 function showProblemTab(tab) {
   const desc = document.getElementById('problem-desc-section');
   const submit = document.getElementById('problem-submit-section');
@@ -495,7 +492,7 @@ function showProblemTab(tab) {
   desc.style.display = tab === 'desc' ? '' : 'none';
   submit.style.display = tab === 'submit' ? '' : 'none';
   status.style.display = tab === 'status' ? '' : 'none';
-  // 탭 버튼 스타일
+  
   document.querySelectorAll('#problem-detail-tabs .tab-btn').forEach(btn => {
     btn.classList.remove('btn--primary');
     btn.classList.add('btn--outline');
@@ -506,7 +503,7 @@ function showProblemTab(tab) {
     activeBtn.classList.remove('btn--outline');
   }
 }
-// 탭 버튼 이벤트
+// 이벤트 (탭 버튼)
 if (document.getElementById('problem-detail-tabs')) {
   document.querySelectorAll('#problem-detail-tabs .tab-btn').forEach(btn => {
     btn.addEventListener('click', function() {
@@ -520,7 +517,8 @@ if (document.getElementById('problem-detail-tabs')) {
     });
   });
 }
-// 제출 폼 처리
+
+// 제출 폼 처리 (이거 없어도 될것 같은데, 일단 냅둠)
 if (document.getElementById('submit-form')) {
   document.getElementById('submit-form').addEventListener('submit', function(e) {
     e.preventDefault();
@@ -530,28 +528,28 @@ if (document.getElementById('submit-form')) {
     this.reset();
   });
 }
-// 문제 상세에서 목록 복귀
+// 문제 상세에서 목록 복귀 (이거 같은 기능 중복임, 시간 남으면 고칠 예정)
 if (document.getElementById('problem-back-btn')) {
   document.getElementById('problem-back-btn').addEventListener('click', function() {
     showPage('problems-page');
   });
 }
 
-// 단계별 하위 문제에서 목록(주제)로 돌아가기
+// 하위 문제에서 리스트로 돌아가기 기능 동작 안해서 그냥 임시로 해결한 부분
 function backToStep() {
   document.getElementById('step-detail').classList.add('hidden');
   document.getElementById('step').classList.remove('hidden');
 }
 
-// 문제 리스트 SPA 이벤트 연결 (탭 전환 시마다)
+// 문제 리스트 이벤트 (탭 전환)
 document.addEventListener('DOMContentLoaded', () => {
   addProblemListSPAEvents();
-  // 탭 전환 시에도 이벤트 연결
+  // 탭 전환이 발생할 때 이벤트 (단순연결)
   document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', () => {
       setTimeout(() => {
         addProblemListSPAEvents();
-        // 단계별 하위 문제에도 SPA 이벤트 연결
+        // 단계별 하위 문제에도 이벤트 연결 (리디렉션 뺌)
         if (document.getElementById('step-detail-table')) {
           document.querySelectorAll('.spa-problem-row').forEach(row => {
             row.addEventListener('click', function(e) {
@@ -567,28 +565,28 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// 문제 탭(전체/단계/난이도순) 전환 기능
+// 문제 탭(전체/단계/난이도순) 전환 기능 (동작 안함 -> 수정 완료)
 document.addEventListener('DOMContentLoaded', function() {
-  // 문제 탭(전체/단계/난이도순) 전환 기능
+  // 문제 탭(전체/단계/난이도순) 전환 기능 (동작 안함 -> 수정 완료)
   document.querySelectorAll('.tabs .tab').forEach(tabBtn => {
     tabBtn.addEventListener('click', function(e) {
       e.preventDefault();
-      // 탭 버튼 스타일
+
+      // 이거 뭐임?
       document.querySelectorAll('.tabs .tab').forEach(btn => btn.classList.remove('active'));
       this.classList.add('active');
-      // 탭 컨텐츠 show/hide
+      // 탭 컨텐츠 show/hide (이거 매우 중요)
       const tabName = this.getAttribute('data-tab');
       document.querySelectorAll('.tab-content').forEach(tc => {
         if (tc.id === tabName) tc.classList.remove('hidden');
         else tc.classList.add('hidden');
       });
-      // 단계별 메인에서 하위 문제 영역 숨기기
+      // 단계별 메인에서 하위 문제 영역 숨기기 (이거 위치 바꿔야할듯 -> 수정 완료)
       if (tabName !== 'step-detail' && document.getElementById('step-detail')) {
         document.getElementById('step-detail').classList.add('hidden');
       }
-      // SPA 이벤트 재연결
+      // 페이지 전환 이벤트 재연결 -> 임시 구현
       setTimeout(addProblemListSPAEvents, 10);
     });
   });
 });
-// ================= 문제 리스트(탭/검색/단계별) 기능 끝 =================

@@ -14,14 +14,14 @@
   </style>
 </head>
 <body class="container py-16">
-  <!-- 메뉴바 -->
+  <!-- 테마 토글 왜 작동 안함? -->
   <nav class="navbar">
     <div class="container">
       <div class="navbar-content">
         <div class="navbar-brand">
           <div class="brand-logo">
-            <div class="logo-icon">🚀</div>
-            <h2>코딩플랫폼</h2>
+            <div class="logo-icon"></div>
+            <h2>코딩 플랫폼</h2>
           </div>
         </div>
         <ul class="navbar-nav">
@@ -37,7 +37,7 @@
     </div>
   </nav>
 
-  <!-- 게시판 페이지 (discussion) -->
+  <!-- 개같은 게시판 -->
   <div id="discussion-page" class="page">
     <br>
     <h2 id="boardTitle" class="mb-16">게시판</h2>
@@ -65,7 +65,7 @@
     <button class="btn btn--primary" id="goToWriteBtn">글쓰기</button>
   </div>
 
-  <!-- 글쓰기 페이지 -->
+  <!-- 글쓰기 페이지 합친 부분 -->
   <div id="write-board-page" class="page">
     <h2 id="formTitle" class="mb-16">글쓰기</h2>
     <form id="writeForm" class="card p-16">
@@ -93,7 +93,7 @@
     </div>
   </div>
 
-  <!-- 글 보기 페이지 -->
+  <!-- 글 보기 페이지 합친 부분 -->
   <div id="view-board-page" class="page">
     <div class="card p-16">
       <h2 id="viewTitle" class="mb-8">제목</h2>
@@ -111,11 +111,11 @@
     </div>
   </div>
 
-  <!-- Main Content Container -->
+  <!-- 여기부터 메인 -->
   <main class="main-content">
-    <!-- Home Page -->
+    <!-- 홈페이지 -->
     <div id="home-page" class="page active">
-        <!-- Hero Section -->
+        <!-- Hero Section이라는데 걍 궁금해서 해본 부분 -->
         <section class="hero">
             <div class="hero-bg-pattern"></div>
             <div class="container">
@@ -153,7 +153,7 @@
             </div>
         </section>
 
-        <!-- Learning Progress Section -->
+        <!-- 학습 현황 구현 완료 -->
         <section class="progress-section">
             <div class="container">
                 <div class="section-header">
@@ -196,7 +196,7 @@
             </div>
         </section>
 
-        <!-- Today's Recommendations -->
+        <!-- 추천문제 (작동 안함) -->
         <section class="recommendations">
             <div class="container">
                 <div class="section-header">
@@ -238,7 +238,7 @@
             </div>
         </section>
 
-        <!-- Recent Activity -->
+        <!-- 최근 활동 (별 의미 없긴 한데 있으면 예쁘긴 함)  -->
         <section class="activity-section">
             <div class="container">
                 <div class="section-header">
@@ -274,7 +274,7 @@
             </div>
         </section>
 
-        <!-- Features Section -->
+        <!-- 공간 채우기 ver.2 -->
         <section class="features">
             <div class="container">
                 <div class="section-header">
@@ -315,7 +315,7 @@
         </section>
     </div>
 
-    <!-- Registration Page -->
+    <!-- 회원가입 페이지 병합하는거 개빡셈 -->
     <div id="signup-page" class="page">
         <div class="signup-bg"></div>
         <div class="container">
@@ -379,7 +379,7 @@
         </div>
     </div>
 
-    <!-- My Page -->
+    <!-- 마이페이지는 원래 로그인 이후에 보이는거 아님? -> 어차피 껍데기 구현이니까 있으면 좋은듯? -->
     <div id="mypage-page" class="page">
         <div class="container">
             <div class="mypage-container">
@@ -388,7 +388,7 @@
                     <p>학습 진행 상황과 성취를 확인하세요</p>
                 </div>
                 
-                <!-- User Profile Section -->
+                <!-- 유저 프로필 -->
                 <section class="profile-section">
                     <div class="profile-card card glass-effect">
                         <div class="card__body">
@@ -420,7 +420,7 @@
                     </div>
                 </section>
 
-                <!-- Statistics Dashboard -->
+                <!-- 통계 (미완) -->
                 <section class="dashboard-section">
                     <h2>나의 통계</h2>
                     <div class="dashboard-grid">
@@ -464,7 +464,7 @@
                     </div>
                 </section>
 
-                <!-- Achievements -->
+                <!-- 성취 페이지 (공간 늘리기) -->
                 <section class="achievements-section">
                     <h2>성취</h2>
                     <div class="achievements-grid">
@@ -498,7 +498,7 @@
                     </div>
                 </section>
 
-                <!-- Recent Activity -->
+                <!-- 최근 활동 (공간 늘리기) -->
                 <section class="activity-section">
                     <h2>최근 활동</h2>
                     <div class="card glass-effect">
@@ -551,7 +551,7 @@
                     </div>
                 </section>
 
-                <!-- Account Settings -->
+                <!-- 계정 설정 (작동 안함 -> 수정 완료) -->
                 <section class="settings-section">
                     <h2>계정 설정</h2>
                     <div class="card glass-effect">
@@ -586,7 +586,7 @@
         </div>
     </div>
 
-    <!-- Placeholder Pages -->
+    <!-- 문제 리스트 (정렬 안되는 버그 있음 -> 수정 완료) -->
     <div id="problems-page" class="page placeholder-page">
       <div class="container py-16">
         <div class="section-header">
@@ -607,7 +607,7 @@
           <button class="tab btn btn--outline" data-tab="step">단계</button>
           <button class="tab btn btn--outline" data-tab="category1">난이도순</button>
         </div>
-        <!-- 전체 -->
+        <!-- 문제 전체 -->
         <div class="tab-content" id="all">
           <table class="problem-table">
             <thead>
@@ -638,7 +638,7 @@
             </tbody>
           </table>
         </div>
-        <!-- 단계: 주제 목록 -->
+        <!-- 문제 주제로 리스트 정렬 -->
         <div class="tab-content hidden" id="step">
           <table class="problem-table mt-16">
             <thead>
@@ -660,12 +660,12 @@
             </tbody>
           </table>
         </div>
-        <!-- 단계: 하위 문제 표시 -->
+        <!-- 정렬된 리스트에서 하위 문제 표시 -->
         <div class="tab-content hidden" id="step-detail">
           <button class="btn btn--outline mb-4" onclick="backToStep()">← 단계 목록으로</button>
           <table class="problem-table" id="step-detail-table"></table>
         </div>
-        <!-- 난이도순 -->
+        <!-- 난이도순 문제 정렬 (이게 작동 안했던 부분임) -->
         <div class="tab-content hidden" id="category1">
           <table class="problem-table">
             <thead>
@@ -716,7 +716,7 @@
             </div>
         </div>
     </div>
-  <!-- 문제 상세/제출 SPA 영역 -->
+  <!-- 문제 세부내용 + 제출 탭 구현 (다시 제작한거라 디자인 부분 너프긴 함) -->
   <div id="problem-detail-page" class="page">
   <div class="container py-16">
     <div class="flex gap-8 mb-16" id="problem-detail-tabs">
