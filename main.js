@@ -590,3 +590,21 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
+
+// ================= 코드 입력창 C언어 하이라이트 =================
+document.addEventListener('DOMContentLoaded', function() {
+  const textarea = document.getElementById('source-code');
+  const highlighted = document.getElementById('highlighted-code')?.querySelector('code');
+  if (textarea && highlighted && window.hljs) {
+    function syncHighlight() {
+      highlighted.textContent = textarea.value;
+      hljs.highlightElement(highlighted);
+    }
+    textarea.addEventListener('input', syncHighlight);
+    syncHighlight();
+    textarea.addEventListener('scroll', function() {
+      document.getElementById('highlighted-code').scrollTop = textarea.scrollTop;
+      document.getElementById('highlighted-code').scrollLeft = textarea.scrollLeft;
+    });
+  }
+});
